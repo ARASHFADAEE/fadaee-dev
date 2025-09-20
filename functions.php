@@ -24,8 +24,23 @@ function arash_enqueue_assets() {
 }
 add_action('wp_enqueue_scripts', 'arash_enqueue_assets');
 
+//feacher site
 
 get_template_part('inc/feacher');
+
+
+//register post types
+get_template_part('inc/PostTypes');
+
+//register Taxonomies
+get_template_part('inc/Taxonomies');
+
+
+//register fields
+get_template_part('inc/fields');
+
+
+
 
 //add localize script
 function arash_localize_script() {
@@ -148,5 +163,8 @@ function mobile_ajax_search() {
 }
 add_action('wp_ajax_mobile_ajax_search', 'mobile_ajax_search');
 add_action('wp_ajax_nopriv_mobile_ajax_search', 'mobile_ajax_search');
+
+
+
 
 ?>
