@@ -2,7 +2,6 @@
 define('ARASH_THEME_DIR', get_template_directory_uri());
 define('SITE_URL', get_site_url());
 
-
 function arash_enqueue_assets() {
     // Enqueue stylesheets
     wp_enqueue_style('swiper-css', ARASH_THEME_DIR . '/assets/css/dependencies/swiper-bundle.min.css', array(), '1.0');
@@ -42,6 +41,11 @@ function arash_localize_script() {
     ));
 }
 add_action('wp_enqueue_scripts', 'arash_localize_script');
+
+
+
+
+
 
 
 ?>
