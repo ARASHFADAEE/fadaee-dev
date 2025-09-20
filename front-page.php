@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="<?php echo ARASH_THEME_DIR ?>/assets/css/dependencies/plyr.min.css" />
     <link rel="stylesheet" href="<?php echo ARASH_THEME_DIR ?>/assets/css/fonts.css" />
     <link rel="stylesheet" href="<?php echo ARASH_THEME_DIR ?>/assets/css/app.css" />
-    <title>قالب آموزشی نابغه - صفحه اصلی - پیش فرض</title>
 </head>
 
 <body>
