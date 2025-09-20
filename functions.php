@@ -32,4 +32,16 @@ function theme_support(){
 add_action('after_setup_theme', 'theme_support');
 
 
+//add localize script
+function arash_localize_script() {
+    wp_localize_script('fadaee-dev-script', 'themeData', array(
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'siteurl' => SITE_URL,
+        'themedir' => ARASH_THEME_DIR,
+        'nonce' => wp_create_nonce('ajax-nonce')
+    ));
+}
+add_action('wp_enqueue_scripts', 'arash_localize_script');
+
+
 ?>
