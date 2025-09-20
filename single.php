@@ -11,6 +11,14 @@ $expert=get_the_excerpt($post_id);
 $content=get_the_content($post_id);
 
 
+//author data
+$author_id=get_post_field('post_author', $post_id);
+$author_name=get_the_author_meta('display_name', $author_id);
+$author_avatar=get_avatar_url($author_id, array('size'=>64));
+$author_url=get_author_posts_url($author_id);
+$author_description=get_the_author_meta('description', $author_id);
+
+
 
 
 
@@ -53,7 +61,7 @@ $content=get_the_content($post_id);
                     </div>
 
                     <!-- sidebar section -->
-                    <?php get_template_part('partials/single-blog/sidebar');?>
+                    <?php get_template_part('partials/single-blog/sidebar', 'sidebar', array('author_name'=>$author_name, 'author_avatar'=>$author_avatar, 'author_url'=>$author_url, 'author_description'=>$author_description));?>
                 </div>
             </div>
             <!-- end container -->
