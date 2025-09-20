@@ -5,14 +5,7 @@ $args = array(
     'post_status' => 'publish',
     'posts_per_page' => 6,
     'orderby' => 'date',
-    'order' => 'DESC',
-    'meta_query' => array(
-        array(
-            'key' => '_visibility',
-            'value' => array('catalog', 'visible'),
-            'compare' => 'IN'
-        )
-    )
+    'order' => 'DESC'
 );
 
 $products = new WP_Query($args);
