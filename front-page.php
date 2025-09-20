@@ -12,6 +12,11 @@
 
             <!-- end features -->
 
+
+            <!-- section:latest-product -->
+
+            <?php get_template_part('partials/home/latest-products.php')?>
+
             <!-- section:latest-courses -->
             <?php get_template_part('partials/home/latest-courses','latest-courses'); ?>
             <!-- end section:latest-courses -->
