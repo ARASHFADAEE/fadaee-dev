@@ -29,7 +29,7 @@
                             </svg>
                         </button>
                         <!-- end offcanvas:button -->
-                        <a href="./home.html" class="inline-flex items-center gap-2 text-primary">
+                        <a href="<?php echo home_url()?>" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
                                 <path
@@ -39,8 +39,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">آکــــادمـــی</span>
-                                <span class="font-black text-xl">نـــابــــغه</span>
+                                <span class="font-semibold text-sm text-muted">توسعه</span>
+                                <span class="font-black text-xl">آرش</span>
                             </span>
                         </a>
                     </div>
@@ -133,8 +133,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">آکــــادمـــی</span>
-                                <span class="font-black text-xl">نـــابــــغه</span>
+                                <span class="font-semibold text-sm text-muted">توسعه</span>
+                                <span class="font-black text-xl">آرش</span>
                             </span>
                         </a>
 

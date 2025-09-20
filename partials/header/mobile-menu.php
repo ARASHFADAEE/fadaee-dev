@@ -1,5 +1,5 @@
 <div class="space-y-5 p-4">
-    <form action="#">
+    <form >
         <div class="flex items-center relative">
             <input type="text" id="mobile-ajax-search-form"
                 class="form-input w-full h-10 !ring-0 !ring-offset-0 bg-secondary dark:bg-gray-700 border border-border focus:border-border rounded-xl text-sm text-foreground dark:text-white pr-10 placeholder:text-gray-500 dark:placeholder:text-gray-400"
