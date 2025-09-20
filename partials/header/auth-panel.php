@@ -14,7 +14,14 @@
                                     </svg>
                                 </span>
                                 <span class="xs:flex flex-col items-start hidden text-xs space-y-1">
-                                    <span class="font-semibold text-foreground">جلال بهرامی راد</span>
+                                    <span class="font-semibold text-foreground"><?php
+
+                                    $user_id=get_current_user_id();
+                                    $user=get_userdata($user_id);
+                                    echo $user->display_name;
+                                    
+                                    
+                                     ?></span>
                                     <span class="font-semibold text-muted">خوش آمـــدید</span>
                                 </span>
                                 <span class="text-foreground transition-transform"
@@ -84,7 +91,7 @@
                         <?php else:?>
 
                         <!-- login-register:button -->
-                        <a href="./login-register.html"
+                        <a href="<?php echo home_url('my-account');?>"
                             class="inline-flex items-center justify-center gap-1 h-10 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path fill-rule="evenodd"

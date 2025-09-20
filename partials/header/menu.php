@@ -7,15 +7,15 @@ if ($locations && isset($locations[$menu_name])) {
     $menu_items = wp_get_nav_menu_items($menu->term_id);
     
     // سازماندهی آیتم‌های منو به صورت سلسله مراتبی
-    $menu_tree = array();
+    $menu_ar = array();
     $submenu_items = array();
     
     if ($menu_items) {
         foreach ($menu_items as $item) {
             if ($item->menu_item_parent == 0) {
                 // آیتم‌های سطح اول
-                $menu_tree[$item->ID] = $item;
-                $menu_tree[$item->ID]->children = array();
+                $menu_ar[$item->ID] = $item;
+                $menu_ar[$item->ID]->children = array();
             } else {
                 // زیرمنوها
                 $submenu_items[$item->menu_item_parent][] = $item;
@@ -24,8 +24,8 @@ if ($locations && isset($locations[$menu_name])) {
         
         // اضافه کردن زیرمنوها به والدین
         foreach ($submenu_items as $parent_id => $children) {
-            if (isset($menu_tree[$parent_id])) {
-                $menu_tree[$parent_id]->children = $children;
+            if (isset($menu_ar[$parent_id])) {
+                $menu_ar[$parent_id]->children = $children;
             }
         }
     }
@@ -34,9 +34,9 @@ if ($locations && isset($locations[$menu_name])) {
 ?>
 <ul class="flex items-center gap-5">
 
-<?php if(!empty($menu_tree)): ?>
+<?php if(!empty($menu_ar)): ?>
 
-    <?php foreach($menu_tree as $item): ?>
+    <?php foreach($menu_ar as $item): ?>
         <?php if(!empty($item->children)): ?>
             <!-- آیتم با زیرمنو -->
             <li class="relative group/submenu">

@@ -15,7 +15,7 @@
 
             <!-- section:latest-product -->
 
-            <?php get_template_part('partials/home/latest-products.php')?>
+            <?php get_template_part('partials/home/latest-products','latest-products'); ?>
 
             <!-- section:latest-courses -->
             <?php get_template_part('partials/home/latest-courses','latest-courses'); ?>

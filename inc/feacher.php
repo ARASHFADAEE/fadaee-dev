@@ -12,7 +12,8 @@ function register_menu_theme(){
     register_nav_menus(array(
         'main-menu' => 'منو اصلی',
         'footer-menu' => 'منو فوتر',
-        "mega-menu" => "مگا منو محصولات"
+        "mega-menu" => "مگا منو محصولات",
+        "mobile-menu" => "منو موبایل"
     ));
 }
 add_action('after_setup_theme','register_menu_theme');
