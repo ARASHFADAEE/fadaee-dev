@@ -24,14 +24,24 @@ function arash_add_custom_meta_boxes() {
         'normal', // Context
         'high' // Priority
     );
+
+    // Meta box for WooCommerce Products
+    add_meta_box(
+        'product_type_meta_box', // ID
+        'نوع محصول', // Title
+        'arash_product_type_meta_box_callback', // Callback
+        'product', // Post type
+        'side', // Context
+        'high' // Priority
+    );
 }
 add_action('add_meta_boxes', 'arash_add_custom_meta_boxes');
 
 // Enqueue custom styles for admin panel
 function arash_enqueue_admin_styles() {
-    // Check if we are on the portfolio or testimonial edit screen
+    // Check if we are on the portfolio, testimonial, or product edit screen
     $screen = get_current_screen();
-    if ($screen->post_type === 'portfolio' || $screen->post_type === 'testimonial') {
+    if ($screen->post_type === 'portfolio' || $screen->post_type === 'testimonial' || $screen->post_type === 'product') {
         ?>
         <style type="text/css">
             /* Styles for Portfolio Technologies */
@@ -93,6 +103,29 @@ function arash_enqueue_admin_styles() {
             }
             .testimonial-fields .checkbox-field label {
                 font-weight: normal;
+            }
+
+            /* Styles for Product Type Fields */
+            .product-type-field {
+                padding: 15px;
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            .product-type-field label {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 4px;
+                transition: background-color 0.2s;
+            }
+            .product-type-field label:hover {
+                background-color: #eee;
+            }
+            .product-type-field input[type="radio"] {
+                margin-left: 8px;
             }
         </style>
         <?php
@@ -274,6 +307,46 @@ function arash_testimonial_meta_box_callback($post) {
     <?php
 }
 
+// Callback to display Product Type meta box fields
+function arash_product_type_meta_box_callback($post) {
+    // Nonce for security
+    wp_nonce_field('arash_product_type_meta_box_nonce', 'arash_product_type_nonce');
+
+    // Get existing value
+    $product_type = get_post_meta($post->ID, '_product_type', true);
+    if (empty($product_type)) {
+        $product_type = 'course'; // Default to course
+    }
+
+    ?>
+    <div style="padding: 10px;">
+        <p>
+            <label style="display: block; margin-bottom: 10px; font-weight: bold;">این محصول چه نوعی است؟</label>
+        </p>
+        
+        <p style="margin-bottom: 15px;">
+            <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer;">
+                <input type="radio" name="product_type" value="course" <?php checked('course', $product_type); ?> style="margin-left: 8px;" />
+                <span>دوره آموزشی</span>
+            </label>
+        </p>
+        
+        <p style="margin-bottom: 15px;">
+            <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer;">
+                <input type="radio" name="product_type" value="news" <?php checked('news', $product_type); ?> style="margin-left: 8px;" />
+                <span>محصول دیجیتال</span>
+            </label>
+        </p>
+        
+        <div style="background: #f0f0f1; padding: 10px; border-radius: 4px; font-size: 12px; color: #646970;">
+            <strong>راهنما:</strong><br>
+            • دوره آموزشی: محصولات قابل دانلود که شامل ویدیو، فایل و محتوای آموزشی هستند<br>
+            • محصول دیجیتال: محصولات قابل دانلود دیجیتال
+        </div>
+    </div>
+    <?php
+}
+
 // Function to save Portfolio meta data
 function arash_save_portfolio_meta($post_id) {
     // Check nonce
@@ -357,3 +430,30 @@ function arash_save_testimonial_meta($post_id) {
     update_post_meta($post_id, '_testimonial_featured', $featured);
 }
 add_action('save_post_testimonial', 'arash_save_testimonial_meta');
+
+// Function to save Product Type meta data
+function arash_save_product_type_meta($post_id) {
+    // Check nonce
+    if (!isset($_POST['arash_product_type_nonce']) || !wp_verify_nonce($_POST['arash_product_type_nonce'], 'arash_product_type_meta_box_nonce')) {
+        return;
+    }
+
+    // Check autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check permissions
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Save product type
+    if (isset($_POST['product_type'])) {
+        $product_type = sanitize_text_field($_POST['product_type']);
+        if (in_array($product_type, array('course', 'news'))) {
+            update_post_meta($post_id, '_product_type', $product_type);
+        }
+    }
+}
+add_action('save_post_product', 'arash_save_product_type_meta');

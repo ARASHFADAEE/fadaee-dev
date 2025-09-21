@@ -44,7 +44,7 @@ if ($products->have_posts()) : ?>
                 
                 if (!$product_obj) continue;
                 
-                $product_image = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'medium');
+                $product_image = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'large');
                 $product_image_url = $product_image ? $product_image[0] : wc_placeholder_img_src();
                 $product_price = $product_obj->get_price_html();
                 $product_link = get_permalink($product_id);

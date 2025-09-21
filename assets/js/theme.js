@@ -71,6 +71,12 @@ jQuery(document).ready(function ($) {
     $(document).on('submit', '#comment-form', function(e) {
         e.preventDefault();
         
+        // Check if user is logged in
+        if (!themeData.isUserLoggedIn) {
+            showMessage('برای ثبت نظر ابتدا وارد حساب کاربری خود شوید.', 'error');
+            return;
+        }
+        
         var form = $(this);
         var submitBtn = form.find('button[type="submit"]');
         var submitBtnText = submitBtn.find('span');
@@ -109,7 +115,7 @@ jQuery(document).ready(function ($) {
                 post_id: postId,
                 parent_id: parentId,
                 comment_content: commentContent,
-                nonce: themeData.comment_nonce
+                nonce: themeData.nonce
             },
             success: function(response) {
                 if (response.success) {
@@ -138,6 +144,13 @@ jQuery(document).ready(function ($) {
                     
                     // Show success message
                     showMessage('کامنت شما با موفقیت ارسال شد.', 'success');
+                    
+                    // Update comments count if exists
+                    var commentsCount = $('.comments-count');
+                    if (commentsCount.length) {
+                        var currentCount = parseInt(commentsCount.text()) || 0;
+                        commentsCount.text(currentCount + 1);
+                    }
                 } else {
                     var errorMessage = response.data || 'خطا در ارسال کامنت. لطفاً دوباره تلاش کنید.';
                     showMessage(errorMessage, 'error');
@@ -170,6 +183,12 @@ jQuery(document).ready(function ($) {
     
     // Reply button click
     $(document).on('click', '.reply-btn', function() {
+        // Check if user is logged in
+        if (!themeData.isUserLoggedIn) {
+            showMessage('برای پاسخ دادن به نظرات ابتدا وارد حساب کاربری خود شوید.', 'error');
+            return;
+        }
+        
         var commentId = $(this).data('comment-id');
         var authorName = $(this).data('author-name');
         
@@ -198,6 +217,12 @@ jQuery(document).ready(function ($) {
     
     // Like button click
     $(document).on('click', '.like-btn', function() {
+        // Check if user is logged in
+        if (!themeData.isUserLoggedIn) {
+            showMessage('برای لایک کردن نظرات ابتدا وارد حساب کاربری خود شوید.', 'error');
+            return;
+        }
+        
         var btn = $(this);
         var commentId = btn.data('comment-id');
         
@@ -214,23 +239,29 @@ jQuery(document).ready(function ($) {
             data: {
                 action: 'like_comment',
                 comment_id: commentId,
-                nonce: themeData.comment_nonce
+                nonce: themeData.nonce
             },
             success: function(response) {
                 if (response.success) {
                     var data = response.data;
                     
                     // Update button appearance
+                    var heartIcon = btn.find('svg');
+                    var likesCount = btn.find('.likes-count');
+                    
                     if (data.user_liked) {
-                        btn.addClass('liked').removeClass('text-muted').addClass('text-red-500');
+                        btn.addClass('liked');
+                        heartIcon.removeClass('text-gray-400').addClass('text-red-500');
+                        heartIcon.attr('fill', 'currentColor');
                     } else {
-                        btn.removeClass('liked').removeClass('text-red-500').addClass('text-muted');
+                        btn.removeClass('liked');
+                        heartIcon.removeClass('text-red-500').addClass('text-gray-400');
+                        heartIcon.attr('fill', 'none');
                     }
                     
-                    // Update likes count if there's a counter
-                    var likesCounter = btn.find('.likes-count');
-                    if (likesCounter.length) {
-                        likesCounter.text(data.likes_count);
+                    // Update likes count
+                    if (likesCount.length) {
+                        likesCount.text(data.likes_count);
                     }
                     
                     // Show feedback

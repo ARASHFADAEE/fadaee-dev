@@ -308,4 +308,245 @@ function ajax_like_comment() {
 add_action('wp_ajax_like_comment', 'ajax_like_comment');
 add_action('wp_ajax_nopriv_like_comment', 'ajax_like_comment');
 
+// AJAX Blog Filter
+function ajax_filter_blog() {
+    check_ajax_referer('blog_filter_nonce', 'nonce');
+    
+    // Get filter parameters
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : '';
+    $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+    $sort = isset($_POST['sort']) ? sanitize_text_field($_POST['sort']) : 'newest';
+    $tag = isset($_POST['tag']) ? sanitize_text_field($_POST['tag']) : '';
+    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+    $posts_per_page = isset($_POST['posts_per_page']) ? intval($_POST['posts_per_page']) : 6;
+    
+    // Build query arguments
+    $args = array(
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'paged' => $paged,
+        'posts_per_page' => $posts_per_page,
+    );
+    
+    // Add search parameter
+    if (!empty($search)) {
+        $args['s'] = $search;
+    }
+    
+    // Add category filter
+    if (!empty($category) && $category !== 'all') {
+        $args['category_name'] = $category;
+    }
+    
+    // Add tag filter
+    if (!empty($tag)) {
+        $args['tag'] = $tag;
+    }
+    
+    // Add sorting
+    switch ($sort) {
+        case 'oldest':
+            $args['orderby'] = 'date';
+            $args['order'] = 'ASC';
+            break;
+        case 'title':
+            $args['orderby'] = 'title';
+            $args['order'] = 'ASC';
+            break;
+        case 'popular':
+            $args['meta_key'] = 'post_views';
+            $args['orderby'] = 'meta_value_num';
+            $args['order'] = 'DESC';
+            break;
+        case 'newest':
+        default:
+            $args['orderby'] = 'date';
+            $args['order'] = 'DESC';
+            break;
+    }
+    
+    $query = new WP_Query($args);
+    
+    ob_start();
+    
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $categories = get_the_category();
+            $author_id = get_the_author_meta('ID');
+            $reading_time = get_post_meta(get_the_ID(), 'reading_time', true);
+            if (!$reading_time) $reading_time = '5 دقیقه';
+            ?>
+            <!-- article:card -->
+            <div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
+                <div class="relative mb-3 z-20">
+                    <a href="<?php the_permalink(); ?>" class="block">
+                        <?php if (has_post_thumbnail()) : ?>
+                            <?php the_post_thumbnail('medium', array('class' => 'max-w-full rounded-xl')); ?>
+                        <?php else : ?>
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/courses/01.jpg" class="max-w-full rounded-xl" alt="<?php the_title(); ?>" />
+                        <?php endif; ?>
+                    </a>
+                    <button type="button"
+                        class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" class="w-5 h-5">
+                            <path
+                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="relative space-y-3 z-10">
+                    <h2 class="font-bold text-sm">
+                        <a href="<?php the_permalink(); ?>"
+                            class="line-clamp-1 text-foreground transition-colors hover:text-primary"><?php the_title(); ?></a>
+                    </h2>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-1">
+                            <div
+                                 class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
+                                 <?php 
+                                 $avatar = get_avatar($author_id, 32, 'mystery', '', array('class' => 'w-full h-full object-cover'));
+                                 if ($avatar) {
+                                     echo $avatar;
+                                 } else {
+                                     echo '<div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-xs">' . substr(get_the_author(), 0, 1) . '</div>';
+                                 }
+                                 ?>
+                             </div>
+                            <a href="<?php echo get_author_posts_url($author_id); ?>"
+                                class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary"><?php the_author(); ?></a>
+                        </div>
+                        <?php if (!empty($categories)) : ?>
+                        <a href="<?php echo get_category_link($categories[0]->term_id); ?>"
+                            class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
+                            <span class="font-bold text-xxs"><?php echo esc_html($categories[0]->name); ?></span>
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="flex items-center gap-1 text-muted">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
+                            <span class="font-semibold text-xs text-foreground"><?php echo esc_html($reading_time); ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end article:card -->
+            <?php
+        }
+        wp_reset_postdata();
+    } else {
+        ?>
+        <div class="col-span-full text-center py-8">
+            <p class="text-muted">هیچ مقاله‌ای یافت نشد.</p>
+        </div>
+        <?php
+    }
+    
+    $posts_html = ob_get_clean();
+    
+    $response = array(
+        'posts' => $posts_html,
+        'max_pages' => $query->max_num_pages,
+        'current_page' => $paged,
+        'found_posts' => $query->found_posts
+    );
+    
+    wp_send_json_success($response);
+}
+add_action('wp_ajax_filter_blog', 'ajax_filter_blog');
+add_action('wp_ajax_nopriv_filter_blog', 'ajax_filter_blog');
+
+// AJAX handler for popular tags
+function ajax_get_popular_tags() {
+    check_ajax_referer('blog_filter_nonce', 'nonce');
+    
+    // Get filter parameters
+    $search = sanitize_text_field($_POST['search'] ?? '');
+    $category = sanitize_text_field($_POST['category'] ?? '');
+    $sort = sanitize_text_field($_POST['sort'] ?? 'newest');
+    
+    // Build query args to get posts matching current filters
+    $args = array(
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'posts_per_page' => -1, // Get all posts to analyze tags
+        'fields' => 'ids' // Only get IDs for performance
+    );
+    
+    // Apply same filters as main query
+    if (!empty($search)) {
+        $args['s'] = $search;
+    }
+    
+    if (!empty($category) && $category !== 'all') {
+        $args['category_name'] = $category;
+    }
+    
+    $query = new WP_Query($args);
+    $post_ids = $query->posts;
+    
+    if (empty($post_ids)) {
+        wp_send_json_success(array('tags' => ''));
+        return;
+    }
+    
+    // Get tags from filtered posts
+    $tags = wp_get_object_terms($post_ids, 'post_tag', array(
+        'orderby' => 'count',
+        'order' => 'DESC',
+        'number' => 10 // Limit to top 10 popular tags
+    ));
+    
+    if (is_wp_error($tags) || empty($tags)) {
+        wp_send_json_success(array('tags' => ''));
+        return;
+    }
+    
+    // Generate HTML for tags
+    ob_start();
+    foreach ($tags as $tag) {
+        ?>
+        <li>
+            <a href="#" data-tag="<?php echo esc_attr($tag->slug); ?>"
+                class="tag-filter inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
+                # <?php echo esc_html($tag->name); ?>
+            </a>
+        </li>
+        <?php
+    }
+    $tags_html = ob_get_clean();
+    
+    wp_send_json_success(array('tags' => $tags_html));
+}
+
+add_action('wp_ajax_get_popular_tags', 'ajax_get_popular_tags');
+add_action('wp_ajax_nopriv_get_popular_tags', 'ajax_get_popular_tags');
+
+// Enqueue blog filter script
+function enqueue_blog_filter_script() {
+    if (is_home() || is_front_page()) {
+        wp_enqueue_script(
+            'blog-filter',
+            get_template_directory_uri() . '/assets/js/filter-blog.js',
+            array(),
+            '1.0.0',
+            true
+        );
+        
+        wp_localize_script('blog-filter', 'blogAjax', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('blog_filter_nonce')
+        ));
+    }
+}
+add_action('wp_enqueue_scripts', 'enqueue_blog_filter_script');
+
 ?>

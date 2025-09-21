@@ -26,9 +26,9 @@
                         <div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
                             <div class="w-full flex flex-col space-y-3 mb-5">
                                 <span class="font-bold text-sm text-foreground">جستجو مقالات</span>
-                                <form action="#">
+                                <form id="blog-search-form">
                                     <div class="flex items-center relative">
-                                        <input type="text"
+                                        <input type="text" id="blog-search-input"
                                             class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground"
                                             placeholder="عنوان مقاله..">
                                         <span class="absolute left-3 text-muted">
@@ -44,68 +44,34 @@
                             </div>
                             <div class="w-full flex flex-col space-y-5">
                                 <span class="font-bold text-sm text-foreground">تگ های محبوب</span>
-                                <ul class="flex flex-wrap gap-3">
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # لاراول
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # طراحی_وب
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # جاوااسکریپت
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # php
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # ریکت
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # وردپرس
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # فلاتر
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # تیلویند
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # برنامه نویسی
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                            # متفرقه
-                                        </a>
-                                    </li>
-                                </ul>
+                                <ul id="popular-tags" class="flex flex-wrap gap-3">
+                                    <?php
+                                    // Get popular tags dynamically
+                                    $popular_tags = get_tags(array(
+                                        'orderby' => 'count',
+                                        'order' => 'DESC',
+                                        'number' => 10
+                                    ));
+                                    
+                                    if (!empty($popular_tags)) {
+                                        foreach ($popular_tags as $tag) {
+                                            ?>
+                                            <li>
+                                                <a href="#" data-tag="<?php echo esc_attr($tag->slug); ?>"
+                                                    class="tag-filter inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
+                                                    # <?php echo esc_html($tag->name); ?>
+                                                </a>
+                                            </li>
+                                            <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <li>
+                                            <span class="text-muted text-xs">هیچ تگی یافت نشد</span>
+                                        </li>
+                                        <?php
+                                    }
+                                    ?>
                             </div>
                             <!-- accordion:container -->
                             <div class="flex flex-col divide-y divide-border">
@@ -139,30 +105,24 @@
                                     <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
                                         <div class="space-y-2">
                                             <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">لاراول</span>
+                                                <input type="radio" name="category" value="all" checked
+                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" />
+                                                <span class="text-sm text-muted">همه دسته‌ها</span>
                                             </label>
+                                            <?php
+                                            $categories = get_categories(array(
+                                                'orderby' => 'name',
+                                                'order' => 'ASC',
+                                                'hide_empty' => true
+                                            ));
+                                            foreach ($categories as $category) :
+                                            ?>
                                             <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">وردپرس</span>
+                                                <input type="radio" name="category" value="<?php echo esc_attr($category->slug); ?>"
+                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" />
+                                                <span class="text-sm text-muted"><?php echo esc_html($category->name); ?></span>
                                             </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">جاوااسکریپت</span>
-                                            </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">اندروید</span>
-                                            </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">پایتون</span>
-                                            </label>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div><!-- end accordion:content -->
                                 </div><!-- accordion -->
@@ -190,10 +150,14 @@
 
                                         <!-- form:select -->
                                         <div class="w-52 relative"
-                                            x-data="{ open: false, selectedOption: 'انتخاب کنید', selectedValue: '', options: ['جدید‌ترین', 'در حال برگزاری', 'تکمیل ضبط‌', 'دوره‌های خریداری شده', 'در حال مشاهده', 'قدیمی‌ترین'] }">
+                                            x-data="{ open: false, selectedOption: 'جدیدترین', selectedValue: 'date_desc', options: [
+                                                {label: 'جدیدترین', value: 'date_desc'},
+                                                {label: 'قدیمی‌ترین', value: 'date_asc'},
+                                                {label: 'الفبایی', value: 'title_asc'}
+                                            ] }">
 
                                             <!-- The selected value is stored in this input. -->
-                                            <input type="hidden" x-model="selectedValue" />
+                                            <input type="hidden" id="blog-sort-input" x-model="selectedValue" />
 
                                             <!-- form:select:button -->
                                             <button x-on:click="open = !open"
@@ -214,11 +178,11 @@
                                             <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30"
                                                 x-show="open" x-on:click.away="open = false">
                                                 <ul class="max-h-48 overflow-y-auto">
-                                                    <template x-for="(month, index) in options" :key="index">
+                                                    <template x-for="(option, index) in options" :key="index">
                                                         <!-- form:select option -->
-                                                        <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
-                                                            x-on:click="selectedOption = month; selectedValue = (index + 1).toString(); open = false"
-                                                            x-text="month"></li><!-- end form:select:option -->
+                                                        <li class="blog-sort-option font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                                                            x-on:click="selectedOption = option.label; selectedValue = option.value; open = false"
+                                                            x-text="option.label"></li><!-- end form:select:option -->
                                                     </template>
                                                 </ul>
                                             </div><!-- end form:select:options container -->
@@ -421,13 +385,33 @@
                             </div>
 
                             <!-- articles:wrapper -->
-                            <div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
+                            <div id="blog-posts-container" class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
+                                <?php
+                                $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+                                $args = array(
+                                    'post_type' => 'post',
+                                    'posts_per_page' => 6,
+                                    'paged' => $paged,
+                                    'post_status' => 'publish'
+                                );
+                                $blog_query = new WP_Query($args);
+                                
+                                if ($blog_query->have_posts()) :
+                                    while ($blog_query->have_posts()) : $blog_query->the_post();
+                                        $categories = get_the_category();
+                                        $author_id = get_the_author_meta('ID');
+                                        $reading_time = get_post_meta(get_the_ID(), 'reading_time', true);
+                                        if (!$reading_time) $reading_time = '5 دقیقه';
+                                ?>
                                 <!-- article:card -->
                                 <div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
                                     <div class="relative mb-3 z-20">
-                                        <a href="./article-detail.html" class="block">
-                                            <img src="./assets/images/courses/01.jpg" class="max-w-full rounded-xl"
-                                                alt="..." />
+                                        <a href="<?php the_permalink(); ?>" class="block">
+                                            <?php if (has_post_thumbnail()) : ?>
+                                                <?php the_post_thumbnail('medium', array('class' => 'max-w-full rounded-xl')); ?>
+                                            <?php else : ?>
+                                                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/courses/01.jpg" class="max-w-full rounded-xl" alt="<?php the_title(); ?>" />
+                                            <?php endif; ?>
                                         </a>
                                         <button type="button"
                                             class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
@@ -441,25 +425,24 @@
                                     </div>
                                     <div class="relative space-y-3 z-10">
                                         <h2 class="font-bold text-sm">
-                                            <a href="./article-detail.html"
-                                                class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                پروژه محور React و Next</a>
+                                            <a href="<?php the_permalink(); ?>"
+                                                class="line-clamp-1 text-foreground transition-colors hover:text-primary"><?php the_title(); ?></a>
                                         </h2>
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-1">
                                                 <div
                                                     class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                    <img src="./assets/images/avatars/01.jpeg"
-                                                        class="w-full h-full object-cover" alt="...">
+                                                    <?php echo get_avatar($author_id, 32, '', '', array('class' => 'w-full h-full object-cover')); ?>
                                                 </div>
-                                                <a href="./lecturer.html"
-                                                    class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                    بهرامی راد</a>
+                                                <a href="<?php echo get_author_posts_url($author_id); ?>"
+                                                    class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary"><?php the_author(); ?></a>
                                             </div>
-                                            <a href="./article-category.html"
+                                            <?php if (!empty($categories)) : ?>
+                                            <a href="<?php echo get_category_link($categories[0]->term_id); ?>"
                                                 class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                <span class="font-bold text-xxs">فرانت اند</span>
+                                                <span class="font-bold text-xxs"><?php echo esc_html($categories[0]->name); ?></span>
                                             </a>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="flex justify-end">
                                             <div class="flex items-center gap-1 text-muted">
@@ -469,185 +452,33 @@
                                                         d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 </svg>
                                                 <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
+                                                <span class="font-semibold text-xs text-foreground"><?php echo esc_html($reading_time); ?></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- end article:card -->
-
-                                <!-- article:card -->
-                                <div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
-                                    <div class="relative mb-3 z-20">
-                                        <a href="./article-detail.html" class="block">
-                                            <img src="./assets/images/courses/02.jpg" class="max-w-full rounded-xl"
-                                                alt="..." />
-                                        </a>
-                                        <button type="button"
-                                            class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                fill="currentColor" class="w-5 h-5">
-                                                <path
-                                                    d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="relative space-y-3 z-10">
-                                        <h2 class="font-bold text-sm">
-                                            <a href="./article-detail.html"
-                                                class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                پروژه محور React و Next</a>
-                                        </h2>
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-1">
-                                                <div
-                                                    class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                    <img src="./assets/images/avatars/01.jpeg"
-                                                        class="w-full h-full object-cover" alt="...">
-                                                </div>
-                                                <a href="./lecturer.html"
-                                                    class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                    بهرامی راد</a>
-                                            </div>
-                                            <a href="./article-category.html"
-                                                class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                <span class="font-bold text-xxs">فرانت اند</span>
-                                            </a>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <div class="flex items-center gap-1 text-muted">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                </svg>
-                                                <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <?php 
+                                    endwhile;
+                                else :
+                                ?>
+                                <div class="col-span-full text-center py-8">
+                                    <p class="text-muted">هیچ مقاله‌ای یافت نشد.</p>
                                 </div>
-                                <!-- end article:card -->
-
-                                <!-- article:card -->
-                                <div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
-                                    <div class="relative mb-3 z-20">
-                                        <a href="./article-detail.html" class="block">
-                                            <img src="./assets/images/courses/03.jpg" class="max-w-full rounded-xl"
-                                                alt="..." />
-                                        </a>
-                                        <button type="button"
-                                            class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                fill="currentColor" class="w-5 h-5">
-                                                <path
-                                                    d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="relative space-y-3 z-10">
-                                        <h2 class="font-bold text-sm">
-                                            <a href="./article-detail.html"
-                                                class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                پروژه محور React و Next</a>
-                                        </h2>
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-1">
-                                                <div
-                                                    class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                    <img src="./assets/images/avatars/01.jpeg"
-                                                        class="w-full h-full object-cover" alt="...">
-                                                </div>
-                                                <a href="./lecturer.html"
-                                                    class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                    بهرامی راد</a>
-                                            </div>
-                                            <a href="./article-category.html"
-                                                class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                <span class="font-bold text-xxs">فرانت اند</span>
-                                            </a>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <div class="flex items-center gap-1 text-muted">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                </svg>
-                                                <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end article:card -->
-
-                                <!-- article:card -->
-                                <div class="relative bg-background rounded-xl shadow-xl shadow-black/5 p-4">
-                                    <div class="relative mb-3 z-20">
-                                        <a href="./article-detail.html" class="block">
-                                            <img src="./assets/images/courses/04.jpg" class="max-w-full rounded-xl"
-                                                alt="..." />
-                                        </a>
-                                        <button type="button"
-                                            class="absolute left-3 -bottom-3 w-9 h-9 inline-flex items-center justify-center bg-secondary rounded-full shadow-xl text-muted transition-colors hover:text-red-500 z-10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                fill="currentColor" class="w-5 h-5">
-                                                <path
-                                                    d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="relative space-y-3 z-10">
-                                        <h2 class="font-bold text-sm">
-                                            <a href="./article-detail.html"
-                                                class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
-                                                پروژه محور React و Next</a>
-                                        </h2>
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-1">
-                                                <div
-                                                    class="flex-shrink-0 w-8 h-8 border border-white rounded-full overflow-hidden">
-                                                    <img src="./assets/images/avatars/01.jpeg"
-                                                        class="w-full h-full object-cover" alt="...">
-                                                </div>
-                                                <a href="./lecturer.html"
-                                                    class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">جلال
-                                                    بهرامی راد</a>
-                                            </div>
-                                            <a href="./article-category.html"
-                                                class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
-                                                <span class="font-bold text-xxs">فرانت اند</span>
-                                            </a>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <div class="flex items-center gap-1 text-muted">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                </svg>
-                                                <span class="font-semibold text-xs text-muted">زمان مطالعه:</span>
-                                                <span class="font-semibold text-xs text-foreground">۲۰ دقیقه</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end article:card -->
+                                <?php endif; wp_reset_postdata(); ?>
                             </div>
                             <!-- end articles:wrapper -->
 
                             <div class="flex justify-center mt-8">
                                 <!-- load more:button -->
-                                <button type="button"
-                                    class="h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-primary px-8">
-                                    <span class="font-semibold text-sm">در حال بارگذاری</span>
+                                <button type="button" id="load-more-btn"
+                                    class="h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-primary px-8"
+                                    data-page="1" data-max-pages="<?php echo $blog_query->max_num_pages; ?>"
+                                    <?php if ($blog_query->max_num_pages <= 1) echo 'style="display: none;"'; ?>>
+                                    <span class="font-semibold text-sm">بارگذاری بیشتر</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="w-5 h-5 animate-spin">
+                                        stroke-linejoin="round" class="w-5 h-5 hidden" id="loading-spinner">
                                         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                                     </svg>
                                 </button>
