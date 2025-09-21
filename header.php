@@ -99,7 +99,7 @@
                                 <span
                                     class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                                 <span
-                                    class="relative inline-flex items-center justify-center rounded-full h-5 w-5 bg-primary text-primary-foreground font-bold text-xs">2</span>
+                                    class="relative inline-flex items-center justify-center rounded-full h-5 w-5 bg-primary text-primary-foreground font-bold text-xs"><?php echo WC()->cart->get_cart_contents_count() ?></span>
                             </span>
                         </a>
 
