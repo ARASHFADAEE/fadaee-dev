@@ -23,11 +23,6 @@
             // Remove from cart buttons
             $(document).on('click', '.remove-cart-item', this.removeFromCart);
             
-            // Update quantity buttons
-            $(document).on('click', '.quantity-plus', this.increaseQuantity);
-            $(document).on('click', '.quantity-minus', this.decreaseQuantity);
-            $(document).on('change', '.quantity-input', this.updateQuantity);
-            
             // Quantity increase/decrease buttons
             $(document).on('click', '.quantity-increase', this.handleQuantityIncrease.bind(this));
             $(document).on('click', '.quantity-decrease', this.handleQuantityDecrease.bind(this));
@@ -108,7 +103,9 @@
 
         // Confirm delete action
         confirmDelete: function(e) {
-            e.preventDefault();
+            if (e && e.preventDefault) {
+                e.preventDefault();
+            }
             
             const cartItemKey = $('.delete-modal').data('cart-item-key');
             
@@ -136,27 +133,68 @@
         // Handle quantity increase
         handleQuantityIncrease: function(e) {
             e.preventDefault();
+            console.log('=== QUANTITY INCREASE CLICKED ===');
+            
             const $button = $(e.currentTarget);
+            console.log('Button element:', $button[0]);
+            console.log('Button disabled state:', $button.prop('disabled'));
+            
+            // Prevent multiple clicks
+            if ($button.prop('disabled')) {
+                console.log('Button is disabled, returning');
+                return;
+            }
+            
             const cartKey = $button.data('cart-key');
-            const currentQuantity = parseInt($button.data('current-quantity')) || 1;
+            // Get current quantity from the display element instead of data attribute
+            const $quantityDisplay = $button.closest('.flex').find('.quantity-display');
+            const currentQuantity = parseInt($quantityDisplay.text()) || 1;
             const newQuantity = currentQuantity + 1;
             
+            console.log('Increase details:', {
+                cartKey: cartKey,
+                currentQuantity: currentQuantity,
+                newQuantity: newQuantity,
+                displayText: $quantityDisplay.text()
+            });
+
             this.updateQuantity(cartKey, newQuantity, $button);
         },
 
         // Handle quantity decrease
         handleQuantityDecrease: function(e) {
             e.preventDefault();
+            console.log('=== QUANTITY DECREASE CLICKED ===');
+            
             const $button = $(e.currentTarget);
+            console.log('Button element:', $button[0]);
+            console.log('Button disabled state:', $button.prop('disabled'));
+            
+            // Prevent multiple clicks
+            if ($button.prop('disabled')) {
+                console.log('Button is disabled, returning');
+                return;
+            }
+            
             const cartKey = $button.data('cart-key');
-            const currentQuantity = parseInt($button.data('current-quantity')) || 1;
+            // Get current quantity from the display element instead of data attribute
+            const $quantityDisplay = $button.closest('.flex').find('.quantity-display');
+            const currentQuantity = parseInt($quantityDisplay.text()) || 1;
+            
+            console.log('Decrease details:', {
+                cartKey: cartKey,
+                currentQuantity: currentQuantity,
+                displayText: $quantityDisplay.text()
+            });
             
             if (currentQuantity <= 1) {
+                console.log('Quantity is already at minimum (1)');
                 this.showMessage('حداقل تعداد یک عدد است', 'warning');
                 return;
             }
             
             const newQuantity = currentQuantity - 1;
+            console.log('New quantity will be:', newQuantity);
             this.updateQuantity(cartKey, newQuantity, $button);
         },
 
@@ -166,78 +204,56 @@
             ArashCart.hideDeleteModal();
         },
 
-        // Increase quantity
-        increaseQuantity: function(e) {
-            e.preventDefault();
-            
-            const $button = $(this);
-            const $quantityInput = $button.siblings('.quantity-input');
-            const currentQuantity = parseInt($quantityInput.val()) || 1;
-            
-            $quantityInput.val(currentQuantity + 1).trigger('change');
-        },
 
-        // Decrease quantity
-        decreaseQuantity: function(e) {
-            e.preventDefault();
-            
-            const $button = $(this);
-            const $quantityInput = $button.siblings('.quantity-input');
-            const currentQuantity = parseInt($quantityInput.val()) || 1;
-            
-            if (currentQuantity > 1) {
-                $quantityInput.val(currentQuantity - 1).trigger('change');
-            }
-        },
 
-        // Update quantity
-        updateQuantity: function(e) {
-            const $input = $(this);
-            const cartItemKey = $input.data('cart-item-key');
-            const quantity = parseInt($input.val()) || 1;
-            
-            if (!cartItemKey) {
-                ArashCart.showMessage('خطا در شناسایی آیتم سبد خرید', 'error');
-                return;
-            }
-
-            const data = {
-                cart_item_key: cartItemKey,
-                quantity: quantity
-            };
-
-            ArashCart.makeAjaxRequest('arash_update_cart_quantity', data, function(response) {
-            if (response.success) {
-                // Don't show success message, just update the UI
-                ArashCart.updateItemSubtotal(data.cart_item_key, response.data.cart_data);
-                ArashCart.updateCartTotals(response.data.cart_data.totals);
-                ArashCart.updateCartCount(response.data.cart_count);
-                
-                // Update cart total in header
-                $('.cart-total').text(response.data.cart_total);
-            } else {
-                ArashCart.showMessage(response.data.message, 'error');
-            }
-        });
-        },
 
         updateQuantity: function(cartKey, quantity, $button) {
-            // Show loading state
+            console.log('=== UPDATE QUANTITY CALLED ===');
+            console.log('Parameters:', { cartKey, quantity, buttonElement: $button[0] });
+            
+            // Show loading state and disable buttons
             const $quantityDisplay = $button.closest('.flex').find('.quantity-display');
+            const $quantityButtons = $button.closest('.flex').find('.quantity-increase, .quantity-decrease');
             const originalText = $quantityDisplay.text();
+            
+            console.log('UI elements found:', {
+                quantityDisplay: $quantityDisplay.length,
+                quantityButtons: $quantityButtons.length,
+                originalText: originalText
+            });
+            
             $quantityDisplay.text('...');
+            $quantityButtons.prop('disabled', true);
+            $quantityDisplay.addClass('opacity-50');
+            
+            console.log('Making AJAX request to arash_update_cart_quantity with:', {
+                cart_item_key: cartKey,
+                quantity: quantity
+            });
             
             this.makeAjaxRequest('arash_update_cart_quantity', {
                 cart_item_key: cartKey,
                 quantity: quantity
             }, (response) => {
-                // Don't show success message, just update the UI
+                console.log('=== AJAX RESPONSE RECEIVED ===');
+                console.log('Full response object:', response);
+                console.log('Response success:', response.success);
+                console.log('Response data:', response.data);
                 
-                // Update quantity display and button data
+                // Update quantity display
                 $quantityDisplay.text(quantity);
-                $button.closest('.flex').find('.quantity-increase, .quantity-decrease').attr('data-current-quantity', quantity);
+                console.log('Updated quantity display to:', quantity);
+                
+                // Update data-current-quantity attributes for both buttons
+                const $quantityContainer = $button.closest('.flex').find('.quantity-increase, .quantity-decrease');
+                $quantityContainer.attr('data-current-quantity', quantity);
+                console.log('Updated button data-current-quantity to:', quantity);
                 
                 if (response.success) {
+                    console.log('Response successful - updating UI components');
+                    console.log('Cart data received:', response.data.cart_data);
+                    console.log('Cart totals:', response.data.cart_data ? response.data.cart_data.totals : 'No totals');
+                    
                     // Update item subtotal using new method
                     ArashCart.updateItemSubtotal(cartKey, response.data.cart_data);
                     
@@ -248,13 +264,27 @@
                     ArashCart.updateCartCount(response.data.cart_count);
                     
                     // Update cart total in header
-                    $('.cart-total').text(response.data.cart_total);
+                    $('.cart-total .amount').text(ArashCart.formatPrice(response.data.cart_total));
+                    
+                    console.log('All UI updates completed successfully');
                 } else {
+                    console.log('Response failed with message:', response.data ? response.data.message : 'No message');
                     ArashCart.showMessage(response.data.message, 'error');
                 }
+                
+                // Re-enable buttons in both success and error cases
+                $quantityButtons.prop('disabled', false);
+                $quantityDisplay.removeClass('opacity-50');
+                console.log('Buttons re-enabled and loading state removed');
             }, (error) => {
+                console.log('=== AJAX ERROR ===');
+                console.log('Error details:', error);
                 this.showMessage('خطا در به‌روزرسانی تعداد محصول', 'error');
                 $quantityDisplay.text(originalText);
+                
+                // Re-enable buttons
+                $quantityButtons.prop('disabled', false);
+                $quantityDisplay.removeClass('opacity-50');
             });
         },
 
@@ -426,13 +456,15 @@
 
         // Update cart totals
         updateCartTotals: function(totals) {
-            $('.cart-subtotal .amount').text(this.formatPrice(totals.subtotal));
-            $('.cart-discount .amount').text(this.formatPrice(totals.discount));
-            $('.cart-total .amount').text(this.formatPrice(totals.total));
+            // Update total amount - the only element that exists in the template
+            if ($('.cart-total .amount').length > 0) {
+                $('.cart-total .amount').text(this.formatPrice(totals.total));
+            }
             
-            // Show/hide discount row
+            // Show/hide discount row if it exists
             if (totals.discount > 0) {
                 $('.cart-discount').show();
+                $('.cart-discount .amount').text('-' + this.formatPrice(totals.discount));
             } else {
                 $('.cart-discount').hide();
             }
@@ -564,7 +596,7 @@
         },
 
         // Make Ajax request
-        makeAjaxRequest: function(action, data, callback) {
+        makeAjaxRequest: function(action, data, callback, errorCallback) {
             const requestData = {
                 action: action,
                 nonce: arash_ajax.nonce,
@@ -583,7 +615,13 @@
                 },
                 error: function(xhr, status, error) {
                     console.error('Ajax request failed:', error);
-                    ArashCart.showMessage('خطا در ارتباط با سرور', 'error');
+                    console.error('Response:', xhr.responseText);
+                    console.error('Status:', status);
+                    if (errorCallback && typeof errorCallback === 'function') {
+                        errorCallback(error);
+                    } else {
+                        ArashCart.showMessage('خطا در ارتباط با سرور', 'error');
+                    }
                 }
             });
         },
@@ -592,19 +630,34 @@
         updateItemSubtotal: function(cartItemKey, cartData) {
             // Find the specific cart item and update its subtotal
             const cartItem = cartData.items.find(item => item.key === cartItemKey);
+            
             if (cartItem) {
                 const $cartItemElement = $(`.cart-item[data-cart-key="${cartItemKey}"]`);
                 const $subtotalElement = $cartItemElement.find('.item-subtotal');
                 
                 if ($subtotalElement.length) {
-                    $subtotalElement.text(this.formatPrice(cartItem.line_total));
+                    const formattedPrice = this.formatPrice(cartItem.line_total);
+                    $subtotalElement.text(formattedPrice);
                 }
             }
         },
 
         // Format price for display
         formatPrice: function(price) {
-            return new Intl.NumberFormat('fa-IR').format(price) + ' تومان';
+            // Handle undefined, null, or invalid price values
+            if (price === undefined || price === null || isNaN(price)) {
+                return '0 تومان';
+            }
+            
+            // Convert to number if it's a string
+            const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+            
+            // Check if conversion was successful
+            if (isNaN(numericPrice)) {
+                return '0 تومان';
+            }
+            
+            return new Intl.NumberFormat('fa-IR').format(numericPrice) + ' تومان';
         },
 
         // Get status label

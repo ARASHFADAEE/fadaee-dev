@@ -268,12 +268,7 @@
                                         <div class="flex flex-col space-y-2" id="cart-summary">
                             <?php if (WC()->cart && !WC()->cart->is_empty()) : ?>
                                 <?php if (WC()->cart->get_subtotal() != WC()->cart->get_total('edit')) : ?>
-                                    <div class="cart-subtotal flex items-center justify-between gap-3">
-                                        <div class="font-bold text-xs text-foreground">جمع جزء</div>
-                                        <div class="flex items-center gap-1">
-                                            <span class="amount font-black text-base text-foreground"><?php echo WC()->cart->get_cart_subtotal(); ?></span>
-                                        </div>
-                                    </div>
+
                                 <?php endif; ?>
                                 
                                 <?php if (WC()->cart->get_discount_total() > 0) : ?>
@@ -390,7 +385,7 @@
                                 </button>
                                 <button type="button"
                                     class="flex items-center justify-center gap-x-2 w-full bg-error border border-transparent rounded-xl text-error-foreground py-2 px-4 confirm-delete-btn"
-                                    x-on:click="modalOpen = false">
+                                    x-on:click="ArashCart.confirmDelete(); modalOpen = false">
                                     <span class="font-bold text-xs">آره،حذف کن</span>
                                 </button>
                             </div>
@@ -411,12 +406,8 @@
         </main>
 
         <script>
-            // Initialize cart functionality when DOM is loaded
-            document.addEventListener('DOMContentLoaded', function() {
-                if (typeof ArashCart !== 'undefined') {
-                    window.cartInstance = new ArashCart();
-                }
-            });
+            // Cart functionality is already initialized in cart.js
+            // No need for additional initialization here
         </script>
 
         <?php get_footer() ?>
