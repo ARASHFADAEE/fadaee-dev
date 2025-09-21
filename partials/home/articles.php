@@ -58,7 +58,7 @@ $latest_articles = new WP_Query(array(
                             <div class="space-y-5">
                                 <?php foreach ($left_column as $post) : 
                                     setup_postdata($post);
-                                    $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+                                    $featured_image = get_the_post_thumbnail_url(get_the_ID(), 'large');
                                     $default_image = ARASH_THEME_DIR . '/assets/images/courses/01.jpg';
                                     $post_image = $featured_image ? $featured_image : $default_image;
                                     

@@ -19,7 +19,19 @@ function register_menu_theme(){
 }
 add_action('after_setup_theme','register_menu_theme');
 
-
+//register widget areas
+function arash_widgets_init() {
+    register_sidebar(array(
+        'name'          => 'نوار کناری اصلی',
+        'id'            => 'sidebar-1',
+        'description'   => 'نوار کناری اصلی سایت',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+}
+add_action('widgets_init', 'arash_widgets_init');
 
 //search ajax header
 function ajax_search(){

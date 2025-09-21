@@ -16,10 +16,14 @@
             <!-- section:latest-product -->
 
             <?php get_template_part('partials/home/latest-products','latest-products'); ?>
+            <!-- section:endlatest-product -->
 
-            <!-- section:latest-courses -->
-            <?php// get_template_part('partials/home/latest-courses','latest-courses'); ?>
-            <!-- end section:latest-courses -->
+
+            <!-- section:portfilio- -->
+             <?php get_template_part('partials/home/latest-portfilio');?>
+
+
+
         </div>
         <!-- end container -->
 

@@ -1,5 +1,5 @@
 
-                        <?php
+<?php
                         if(is_user_logged_in()):
                         ?>
 <!-- user:dropdown -->
@@ -91,7 +91,7 @@
                         <?php else:?>
 
                         <!-- login-register:button -->
-                        <a href="<?php echo home_url('my-account');?>"
+                        <a href="<?php echo home_url('login/?return_to=' . urlencode(get_permalink())); ?>"
                             class="inline-flex items-center justify-center gap-1 h-10 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                                 <path fill-rule="evenodd"
