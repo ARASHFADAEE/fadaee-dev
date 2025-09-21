@@ -16,16 +16,16 @@
                             <span class="font-semibold text-xs text-primary">به زودی :)</span>
                         </div>
                         <h2 class="font-black sm:text-5xl text-3xl text-foreground">
-                            داستان برنامه‌نویس شدنت <br />
+                            داستان کسب و کار تو  <br />
                             از اینجا شروع میشه!
                         </h2>
                         <p class="sm:text-base text-sm text-muted">
-                            یادگیری برنامه‌نویسی آرزو نیست، فقط نیاز هست که تلاش و تمرین داشته
-                            باشید، بقیه‌اش با نابغه
+                            داشتن یک بیزینس حرفه ای آرزو نیست، فقط نیاز هست که سایت باکیفیتی داشته باشید 
+                            باشید، بقیه‌اش با من
                         </p>
-                        <a href="./series.html"
+                        <a href="<?php echo home_url('shop')?>"
                             class="inline-flex items-center justify-center gap-1 h-11 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                            <span class="font-semibold text-sm">شروع یادگیری برنامه‌نویسی</span>
+                            <span class="font-semibold text-sm">نمایش محصولات فروشگاهی</span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                 class="w-5 h-5">
                                 <path fill-rule="evenodd"

@@ -34,6 +34,16 @@ function arash_add_custom_meta_boxes() {
         'side', // Context
         'high' // Priority
     );
+
+    // Meta box for Course Fields
+    add_meta_box(
+        'course_fields_meta_box', // ID
+        'اطلاعات دوره آموزشی', // Title
+        'arash_course_fields_meta_box_callback', // Callback
+        'product', // Post type
+        'normal', // Context
+        'high' // Priority
+    );
 }
 add_action('add_meta_boxes', 'arash_add_custom_meta_boxes');
 
@@ -126,6 +136,58 @@ function arash_enqueue_admin_styles() {
             }
             .product-type-field input[type="radio"] {
                 margin-left: 8px;
+            }
+
+            /* Styles for Course Fields */
+            .course-fields {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                padding: 15px;
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            .course-fields .full-width {
+                grid-column: span 2;
+            }
+            .course-fields label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 8px;
+                color: #23282d;
+            }
+            .course-fields input[type="text"],
+            .course-fields input[type="number"] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-sizing: border-box;
+                font-size: 14px;
+            }
+            .course-fields .image-field {
+                display: flex;
+                flex-direction: column;
+            }
+            .course-fields .image-field input[type="text"] {
+                margin-bottom: 10px;
+            }
+            .course-fields .image-field .button {
+                align-self: flex-start;
+                margin-bottom: 10px;
+            }
+            .course-fields .image-preview {
+                max-width: 100px;
+                height: auto;
+                border-radius: 50%;
+                border: 2px solid #ddd;
+            }
+            .course-fields .help-text {
+                font-size: 12px;
+                color: #666;
+                margin-top: 5px;
+                font-style: italic;
             }
         </style>
         <?php
@@ -347,6 +409,97 @@ function arash_product_type_meta_box_callback($post) {
     <?php
 }
 
+// Callback to display Course Fields meta box
+function arash_course_fields_meta_box_callback($post) {
+    // Nonce for security
+    wp_nonce_field('arash_course_fields_meta_box_nonce', 'arash_course_fields_nonce');
+
+    // Get existing values
+    $course_chapters = get_post_meta($post->ID, '_course_chapters', true);
+    $course_duration = get_post_meta($post->ID, '_course_duration', true);
+    $course_instructor = get_post_meta($post->ID, '_course_instructor', true);
+    $course_instructor_avatar = get_post_meta($post->ID, '_course_instructor_avatar', true);
+    $product_type = get_post_meta($post->ID, '_product_type', true);
+
+    ?>
+    <div class="course-fields" id="course-fields-container" style="<?php echo ($product_type !== 'course') ? 'display: none;' : ''; ?>">
+        <div>
+            <label for="course_chapters">تعداد فصل‌ها</label>
+            <input type="number" id="course_chapters" name="course_chapters" value="<?php echo esc_attr($course_chapters); ?>" min="1" max="100" />
+            <div class="help-text">تعداد فصل‌های موجود در دوره</div>
+        </div>
+
+        <div>
+            <label for="course_duration">مدت زمان دوره (ساعت)</label>
+            <input type="number" id="course_duration" name="course_duration" value="<?php echo esc_attr($course_duration); ?>" min="1" max="1000" />
+            <div class="help-text">مدت زمان کل دوره به ساعت</div>
+        </div>
+
+        <div class="full-width">
+            <label for="course_instructor">نام مدرس</label>
+            <input type="text" id="course_instructor" name="course_instructor" value="<?php echo esc_attr($course_instructor); ?>" />
+            <div class="help-text">نام کامل مدرس دوره</div>
+        </div>
+
+        <div class="full-width">
+            <label for="course_instructor_avatar">عکس مدرس</label>
+            <div class="image-field">
+                <input type="text" id="course_instructor_avatar" name="course_instructor_avatar" value="<?php echo esc_attr($course_instructor_avatar); ?>" />
+                <input type="button" id="course_instructor_avatar_button" class="button" value="انتخاب عکس" />
+                <?php if ($course_instructor_avatar): ?>
+                    <img src="<?php echo esc_url($course_instructor_avatar); ?>" class="image-preview" />
+                <?php endif; ?>
+            </div>
+            <div class="help-text">عکس پروفایل مدرس (ترجیحاً مربعی)</div>
+        </div>
+    </div>
+
+    <script>
+        jQuery(document).ready(function($) {
+            // Media uploader for instructor avatar
+            var instructor_avatar_uploader;
+            $('#course_instructor_avatar_button').click(function(e) {
+                e.preventDefault();
+                if (instructor_avatar_uploader) {
+                    instructor_avatar_uploader.open();
+                    return;
+                }
+                instructor_avatar_uploader = wp.media.frames.file_frame = wp.media({
+                    title: 'انتخاب عکس مدرس',
+                    button: { text: 'انتخاب عکس' },
+                    multiple: false
+                });
+                instructor_avatar_uploader.on('select', function() {
+                    var attachment = instructor_avatar_uploader.state().get('selection').first().toJSON();
+                    $('#course_instructor_avatar').val(attachment.url);
+                    $('.image-preview').remove();
+                    $('#course_instructor_avatar_button').after('<img src="' + attachment.url + '" class="image-preview" />');
+                });
+                instructor_avatar_uploader.open();
+            });
+
+            // Show/hide course fields based on product type
+            function toggleCourseFields() {
+                var productType = $('input[name="product_type"]:checked').val();
+                if (productType === 'course') {
+                    $('#course-fields-container').show();
+                } else {
+                    $('#course-fields-container').hide();
+                }
+            }
+
+            // Initial check
+            toggleCourseFields();
+
+            // Listen for product type changes
+            $('input[name="product_type"]').change(function() {
+                toggleCourseFields();
+            });
+        });
+    </script>
+    <?php
+}
+
 // Function to save Portfolio meta data
 function arash_save_portfolio_meta($post_id) {
     // Check nonce
@@ -433,7 +586,7 @@ add_action('save_post_testimonial', 'arash_save_testimonial_meta');
 
 // Function to save Product Type meta data
 function arash_save_product_type_meta($post_id) {
-    // Check nonce
+    // Check nonce for product type
     if (!isset($_POST['arash_product_type_nonce']) || !wp_verify_nonce($_POST['arash_product_type_nonce'], 'arash_product_type_meta_box_nonce')) {
         return;
     }
@@ -457,3 +610,59 @@ function arash_save_product_type_meta($post_id) {
     }
 }
 add_action('save_post_product', 'arash_save_product_type_meta');
+
+// Function to save Course Fields meta data
+function arash_save_course_fields_meta($post_id) {
+    // Check nonce for course fields
+    if (!isset($_POST['arash_course_fields_nonce']) || !wp_verify_nonce($_POST['arash_course_fields_nonce'], 'arash_course_fields_meta_box_nonce')) {
+        return;
+    }
+
+    // Check autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check permissions
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Only save course fields if product type is 'course'
+    $product_type = isset($_POST['product_type']) ? sanitize_text_field($_POST['product_type']) : get_post_meta($post_id, '_product_type', true);
+    
+    if ($product_type === 'course') {
+        // Save course chapters
+        if (isset($_POST['course_chapters'])) {
+            $chapters = intval($_POST['course_chapters']);
+            if ($chapters > 0) {
+                update_post_meta($post_id, '_course_chapters', $chapters);
+            }
+        }
+
+        // Save course duration
+        if (isset($_POST['course_duration'])) {
+            $duration = intval($_POST['course_duration']);
+            if ($duration > 0) {
+                update_post_meta($post_id, '_course_duration', $duration);
+            }
+        }
+
+        // Save course instructor
+        if (isset($_POST['course_instructor'])) {
+            update_post_meta($post_id, '_course_instructor', sanitize_text_field($_POST['course_instructor']));
+        }
+
+        // Save course instructor avatar
+        if (isset($_POST['course_instructor_avatar'])) {
+            update_post_meta($post_id, '_course_instructor_avatar', esc_url_raw($_POST['course_instructor_avatar']));
+        }
+    } else {
+        // If product type is not 'course', remove course-related meta
+        delete_post_meta($post_id, '_course_chapters');
+        delete_post_meta($post_id, '_course_duration');
+        delete_post_meta($post_id, '_course_instructor');
+        delete_post_meta($post_id, '_course_instructor_avatar');
+    }
+}
+add_action('save_post_product', 'arash_save_course_fields_meta');

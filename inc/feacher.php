@@ -30,6 +30,57 @@ function arash_widgets_init() {
         'before_title'  => '<h3 class="widget-title">',
         'after_title'   => '</h3>',
     ));
+
+    // Footer Widget Areas
+    register_sidebar(array(
+        'name'          => 'فوتر - اطلاعات تماس',
+        'id'            => 'footer-contact',
+        'description'   => 'ناحیه ویجت برای اطلاعات تماس در فوتر (شماره تلفن و ساعات کاری)',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+
+    register_sidebar(array(
+        'name'          => 'فوتر - درباره ما',
+        'id'            => 'footer-about',
+        'description'   => 'ناحیه ویجت برای بخش درباره ما در فوتر',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+
+    register_sidebar(array(
+        'name'          => 'فوتر - لینک های مفید',
+        'id'            => 'footer-links',
+        'description'   => 'ناحیه ویجت برای لینک های مفید در فوتر',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+
+    register_sidebar(array(
+        'name'          => 'فوتر - خبرنامه',
+        'id'            => 'footer-newsletter',
+        'description'   => 'ناحیه ویجت برای فرم خبرنامه در فوتر',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+
+    register_sidebar(array(
+        'name'          => 'فوتر - شبکه های اجتماعی',
+        'id'            => 'footer-social',
+        'description'   => 'ناحیه ویجت برای شبکه های اجتماعی در فوتر',
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
 }
 add_action('widgets_init', 'arash_widgets_init');
 
@@ -538,9 +589,382 @@ function ajax_get_popular_tags() {
     
     wp_send_json_success(array('tags' => $tags_html));
 }
-
 add_action('wp_ajax_get_popular_tags', 'ajax_get_popular_tags');
 add_action('wp_ajax_nopriv_get_popular_tags', 'ajax_get_popular_tags');
+
+// Custom Footer Widgets
+
+// Contact Info Widget
+class Arash_Footer_Contact_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct(
+            'arash_footer_contact',
+            'اطلاعات تماس فوتر',
+            array('description' => 'ویجت اطلاعات تماس برای فوتر')
+        );
+    }
+
+    public function widget($args, $instance) {
+        echo $args['before_widget'];
+        
+        $phone = !empty($instance['phone']) ? $instance['phone'] : '۰۲۱−۱۲۳۴۵۶۷';
+        $hours = !empty($instance['hours']) ? $instance['hours'] : '۰۹:۰۰ - ۱۷:۰۰';
+        ?>
+        <div class="flex flex-wrap items-center gap-10">
+            <div class="flex items-center gap-5">
+                <span class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-muted">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1.148a1.5 1.5 0 0 1 1.465 1.175l.716 3.223a1.5 1.5 0 0 1-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 0 0 6.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 0 1 1.767-1.052l3.223.716A1.5 1.5 0 0 1 18 15.352V16.5a1.5 1.5 0 0 1-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 0 1 2.43 8.326 13.019 13.019 0 0 1 2 5V3.5Z" clip-rule="evenodd"></path>
+                    </svg>
+                </span>
+                <div class="flex flex-col font-black space-y-2">
+                    <span class="text-sm text-primary">شماره تلفن</span>
+                    <span class="text-foreground"><?php echo esc_html($phone); ?></span>
+                </div>
+            </div>
+            <div class="flex items-center gap-5">
+                <span class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-muted">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z" clip-rule="evenodd"></path>
+                    </svg>
+                </span>
+                <div class="flex flex-col font-black space-y-2">
+                    <span class="text-sm text-primary">ساعات کاری</span>
+                    <span class="text-foreground"><?php echo esc_html($hours); ?></span>
+                </div>
+            </div>
+        </div>
+        <?php
+        echo $args['after_widget'];
+    }
+
+    public function form($instance) {
+        $phone = !empty($instance['phone']) ? $instance['phone'] : '۰۲۱−۱۲۳۴۵۶۷';
+        $hours = !empty($instance['hours']) ? $instance['hours'] : '۰۹:۰۰ - ۱۷:۰۰';
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('phone'); ?>">شماره تلفن:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('phone'); ?>" name="<?php echo $this->get_field_name('phone'); ?>" type="text" value="<?php echo esc_attr($phone); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('hours'); ?>">ساعات کاری:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('hours'); ?>" name="<?php echo $this->get_field_name('hours'); ?>" type="text" value="<?php echo esc_attr($hours); ?>">
+        </p>
+        <?php
+    }
+
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['phone'] = (!empty($new_instance['phone'])) ? sanitize_text_field($new_instance['phone']) : '';
+        $instance['hours'] = (!empty($new_instance['hours'])) ? sanitize_text_field($new_instance['hours']) : '';
+        return $instance;
+    }
+}
+
+// About Widget
+class Arash_Footer_About_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct(
+            'arash_footer_about',
+            'درباره ما فوتر',
+            array('description' => 'ویجت درباره ما برای فوتر')
+        );
+    }
+
+    public function widget($args, $instance) {
+        echo $args['before_widget'];
+        
+        $title = !empty($instance['title']) ? $instance['title'] : 'دربــــاره';
+        $content = !empty($instance['content']) ? $instance['content'] : 'نابغه یکی از پرتلاش‌ترین و بروزترین وبسایت های آموزشی در سطح ایران است که همیشه تلاش کرده تا بتواند جدیدترین و بروزترین مقالات و دوره‌های آموزشی را در اختیار علاقه‌مندان ایرانی قرار دهد. تبدیل کردن برنامه نویسان ایرانی به بهترین برنامه نویسان جهان هدف ماست.';
+        ?>
+        <div class="bg-secondary rounded-3xl space-y-5 p-8">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                </div>
+                <div class="font-black text-foreground"><?php echo esc_html($title); ?></div>
+            </div>
+            <p class="font-semibold text-sm text-muted"><?php echo esc_html($content); ?></p>
+        </div>
+        <?php
+        echo $args['after_widget'];
+    }
+
+    public function form($instance) {
+        $title = !empty($instance['title']) ? $instance['title'] : 'دربــــاره';
+        $content = !empty($instance['content']) ? $instance['content'] : 'نابغه یکی از پرتلاش‌ترین و بروزترین وبسایت های آموزشی در سطح ایران است که همیشه تلاش کرده تا بتواند جدیدترین و بروزترین مقالات و دوره‌های آموزشی را در اختیار علاقه‌مندان ایرانی قرار دهد. تبدیل کردن برنامه نویسان ایرانی به بهترین برنامه نویسان جهان هدف ماست.';
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>">عنوان:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('content'); ?>">متن:</label>
+            <textarea class="widefat" rows="5" id="<?php echo $this->get_field_id('content'); ?>" name="<?php echo $this->get_field_name('content'); ?>"><?php echo esc_textarea($content); ?></textarea>
+        </p>
+        <?php
+    }
+
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['content'] = (!empty($new_instance['content'])) ? sanitize_textarea_field($new_instance['content']) : '';
+        return $instance;
+    }
+}
+
+// Links Widget
+class Arash_Footer_Links_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct(
+            'arash_footer_links',
+            'لینک های مفید فوتر',
+            array('description' => 'ویجت لینک های مفید برای فوتر')
+        );
+    }
+
+    public function widget($args, $instance) {
+        echo $args['before_widget'];
+        
+        $title = !empty($instance['title']) ? $instance['title'] : 'لینک های مفید';
+        $links = !empty($instance['links']) ? $instance['links'] : "قوانین و مقررات|#\nمدرسان|#\nدرباره نابغه|#\nارتباط با ما|#";
+        ?>
+        <div class="space-y-5">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                </div>
+                <div class="font-black text-foreground"><?php echo esc_html($title); ?></div>
+            </div>
+            <ul class="flex flex-col space-y-1">
+                <?php
+                $links_array = explode("\n", $links);
+                foreach ($links_array as $link) {
+                    if (!empty(trim($link))) {
+                        $parts = explode('|', $link);
+                        $link_text = trim($parts[0]);
+                        $link_url = isset($parts[1]) ? trim($parts[1]) : '#';
+                        ?>
+                        <li>
+                            <a href="<?php echo esc_url($link_url); ?>" class="inline-flex font-semibold text-sm text-muted hover:text-primary"><?php echo esc_html($link_text); ?></a>
+                        </li>
+                        <?php
+                    }
+                }
+                ?>
+            </ul>
+        </div>
+        <?php
+        echo $args['after_widget'];
+    }
+
+    public function form($instance) {
+        $title = !empty($instance['title']) ? $instance['title'] : 'لینک های مفید';
+        $links = !empty($instance['links']) ? $instance['links'] : "قوانین و مقررات|#\nمدرسان|#\nدرباره نابغه|#\nارتباط با ما|#";
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>">عنوان:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('links'); ?>">لینک ها (هر خط: متن|آدرس):</label>
+            <textarea class="widefat" rows="5" id="<?php echo $this->get_field_id('links'); ?>" name="<?php echo $this->get_field_name('links'); ?>"><?php echo esc_textarea($links); ?></textarea>
+            <small>مثال: درباره ما|/about</small>
+        </p>
+        <?php
+    }
+
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['links'] = (!empty($new_instance['links'])) ? sanitize_textarea_field($new_instance['links']) : '';
+        return $instance;
+    }
+}
+
+// Newsletter Widget
+class Arash_Footer_Newsletter_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct(
+            'arash_footer_newsletter',
+            'خبرنامه فوتر',
+            array('description' => 'ویجت خبرنامه برای فوتر')
+        );
+    }
+
+    public function widget($args, $instance) {
+        echo $args['before_widget'];
+        
+        $title = !empty($instance['title']) ? $instance['title'] : 'خبرنامه';
+        $description = !empty($instance['description']) ? $instance['description'] : 'برای اطلاع از جدیدترین اخبار و جشنوراه‌های تخفیفی نابغه ایمیل خود را وارد کنید.';
+        $placeholder = !empty($instance['placeholder']) ? $instance['placeholder'] : 'آدرس ایمیل';
+        $button_text = !empty($instance['button_text']) ? $instance['button_text'] : 'ثبت ایمیل';
+        ?>
+        <div class="space-y-5">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                </div>
+                <div class="font-black text-foreground"><?php echo esc_html($title); ?></div>
+            </div>
+            <p class="text-sm text-muted"><?php echo esc_html($description); ?></p>
+            <form action="#" method="post">
+                <div class="flex items-center gap-3 relative">
+                    <span class="absolute right-3 text-muted">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z"></path>
+                            <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z"></path>
+                        </svg>
+                    </span>
+                    <input type="email" name="newsletter_email" class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border rounded-xl text-sm text-foreground pr-10" placeholder="<?php echo esc_attr($placeholder); ?>" required />
+                    <button type="submit" class="h-11 inline-flex items-center justify-center gap-3 bg-primary rounded-xl whitespace-nowrap text-xs text-primary-foreground transition-all hover:opacity-80 px-4"><?php echo esc_html($button_text); ?></button>
+                </div>
+            </form>
+        </div>
+        <?php
+        echo $args['after_widget'];
+    }
+
+    public function form($instance) {
+        $title = !empty($instance['title']) ? $instance['title'] : 'خبرنامه';
+        $description = !empty($instance['description']) ? $instance['description'] : 'برای اطلاع از جدیدترین اخبار و جشنوراه‌های تخفیفی نابغه ایمیل خود را وارد کنید.';
+        $placeholder = !empty($instance['placeholder']) ? $instance['placeholder'] : 'آدرس ایمیل';
+        $button_text = !empty($instance['button_text']) ? $instance['button_text'] : 'ثبت ایمیل';
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>">عنوان:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('description'); ?>">توضیحات:</label>
+            <textarea class="widefat" rows="3" id="<?php echo $this->get_field_id('description'); ?>" name="<?php echo $this->get_field_name('description'); ?>"><?php echo esc_textarea($description); ?></textarea>
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('placeholder'); ?>">متن placeholder:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('placeholder'); ?>" name="<?php echo $this->get_field_name('placeholder'); ?>" type="text" value="<?php echo esc_attr($placeholder); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('button_text'); ?>">متن دکمه:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('button_text'); ?>" name="<?php echo $this->get_field_name('button_text'); ?>" type="text" value="<?php echo esc_attr($button_text); ?>">
+        </p>
+        <?php
+    }
+
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['description'] = (!empty($new_instance['description'])) ? sanitize_textarea_field($new_instance['description']) : '';
+        $instance['placeholder'] = (!empty($new_instance['placeholder'])) ? sanitize_text_field($new_instance['placeholder']) : '';
+        $instance['button_text'] = (!empty($new_instance['button_text'])) ? sanitize_text_field($new_instance['button_text']) : '';
+        return $instance;
+    }
+}
+
+// Social Media Widget
+class Arash_Footer_Social_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct(
+            'arash_footer_social',
+            'شبکه های اجتماعی فوتر',
+            array('description' => 'ویجت شبکه های اجتماعی برای فوتر')
+        );
+    }
+
+    public function widget($args, $instance) {
+        echo $args['before_widget'];
+        
+        $title = !empty($instance['title']) ? $instance['title'] : 'شبکه های اجتماعی';
+        $instagram = !empty($instance['instagram']) ? $instance['instagram'] : '#';
+        $telegram = !empty($instance['telegram']) ? $instance['telegram'] : '#';
+        $youtube = !empty($instance['youtube']) ? $instance['youtube'] : '#';
+        ?>
+        <div class="space-y-5">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                </div>
+                <div class="font-black text-foreground"><?php echo esc_html($title); ?></div>
+            </div>
+            <ul class="flex flex-wrap items-center gap-5">
+                <li>
+                    <a href="<?php echo esc_url($instagram); ?>" class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-foreground transition-colors hover:text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url($telegram); ?>" class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-foreground transition-colors hover:text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <path d="m22 2-7 20-4-9-9-4Z"></path>
+                            <path d="M22 2 11 13"></path>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo esc_url($youtube); ?>" class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-foreground transition-colors hover:text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+                            <path d="m10 15 5-3-5-3z"></path>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <?php
+        echo $args['after_widget'];
+    }
+
+    public function form($instance) {
+        $title = !empty($instance['title']) ? $instance['title'] : 'شبکه های اجتماعی';
+        $instagram = !empty($instance['instagram']) ? $instance['instagram'] : '#';
+        $telegram = !empty($instance['telegram']) ? $instance['telegram'] : '#';
+        $youtube = !empty($instance['youtube']) ? $instance['youtube'] : '#';
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>">عنوان:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('instagram'); ?>">لینک اینستاگرام:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('instagram'); ?>" name="<?php echo $this->get_field_name('instagram'); ?>" type="url" value="<?php echo esc_attr($instagram); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('telegram'); ?>">لینک تلگرام:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('telegram'); ?>" name="<?php echo $this->get_field_name('telegram'); ?>" type="url" value="<?php echo esc_attr($telegram); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('youtube'); ?>">لینک یوتیوب:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id('youtube'); ?>" name="<?php echo $this->get_field_name('youtube'); ?>" type="url" value="<?php echo esc_attr($youtube); ?>">
+        </p>
+        <?php
+    }
+
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['instagram'] = (!empty($new_instance['instagram'])) ? esc_url_raw($new_instance['instagram']) : '';
+        $instance['telegram'] = (!empty($new_instance['telegram'])) ? esc_url_raw($new_instance['telegram']) : '';
+        $instance['youtube'] = (!empty($new_instance['youtube'])) ? esc_url_raw($new_instance['youtube']) : '';
+        return $instance;
+    }
+}
+
+// Register widgets
+function arash_register_footer_widgets() {
+    register_widget('Arash_Footer_Contact_Widget');
+    register_widget('Arash_Footer_About_Widget');
+    register_widget('Arash_Footer_Links_Widget');
+    register_widget('Arash_Footer_Newsletter_Widget');
+    register_widget('Arash_Footer_Social_Widget');
+}
+add_action('widgets_init', 'arash_register_footer_widgets');
 
 // Enqueue blog filter script
 function enqueue_blog_filter_script() {
