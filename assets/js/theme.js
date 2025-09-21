@@ -64,4 +64,232 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
+    // Comments AJAX functionality
+    
+    // Comment form submission
+    $(document).on('submit', '#comment-form', function(e) {
+        e.preventDefault();
+        
+        var form = $(this);
+        var submitBtn = form.find('button[type="submit"]');
+        var submitBtnText = submitBtn.find('span');
+        var textarea = form.find('textarea[name="comment_content"]');
+        var commentContent = textarea.val().trim();
+        var postId = form.find('input[name="post_id"]').val();
+        var parentId = form.find('input[name="parent_id"]').val() || 0;
+        
+        // Validation
+        if (commentContent === '') {
+            showMessage('لطفاً متن کامنت را وارد کنید.', 'error');
+            textarea.focus();
+            return;
+        }
+        
+        if (commentContent.length < 3) {
+            showMessage('متن کامنت باید حداقل ۳ کاراکتر باشد.', 'error');
+            textarea.focus();
+            return;
+        }
+        
+        if (!postId || postId === '0') {
+            showMessage('خطا در شناسایی پست. لطفاً صفحه را رفرش کنید.', 'error');
+            return;
+        }
+        
+        // Disable submit button and show loading
+        submitBtn.prop('disabled', true);
+        submitBtnText.text('در حال ارسال...');
+        
+        $.ajax({
+            url: themeData.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'submit_comment',
+                post_id: postId,
+                parent_id: parentId,
+                comment_content: commentContent,
+                nonce: themeData.comment_nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Clear the form
+                    textarea.val('');
+                    form.find('input[name="parent_id"]').val('0');
+                    
+                    // Hide reply info if it was a reply
+                    $('.reply-info').addClass('hidden');
+                    
+                    // Add the new comment to the appropriate location
+                    if (response.data.parent_id == 0) {
+                        // Top-level comment - add to comments container
+                        $('#comments-container').prepend(response.data.html);
+                    } else {
+                        // Reply comment - add to parent's replies
+                        var parentComment = $('[data-comment-id="' + response.data.parent_id + '"]').first();
+                        var repliesContainer = parentComment.find('.replies-container').first();
+                        if (repliesContainer.length === 0) {
+                            // Create replies container if it doesn't exist
+                            repliesContainer = $('<div class="replies-container space-y-3 mr-8"></div>');
+                            parentComment.append(repliesContainer);
+                        }
+                        repliesContainer.append(response.data.html);
+                    }
+                    
+                    // Show success message
+                    showMessage('کامنت شما با موفقیت ارسال شد.', 'success');
+                } else {
+                    var errorMessage = response.data || 'خطا در ارسال کامنت. لطفاً دوباره تلاش کنید.';
+                    showMessage(errorMessage, 'error');
+                    console.error('Comment submission error:', response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', {xhr: xhr, status: status, error: error});
+                
+                var errorMessage = 'خطا در ارسال کامنت. ';
+                if (xhr.status === 0) {
+                    errorMessage += 'لطفاً اتصال اینترنت خود را بررسی کنید.';
+                } else if (xhr.status === 403) {
+                    errorMessage += 'دسترسی مجاز نیست. لطفاً دوباره وارد شوید.';
+                } else if (xhr.status === 500) {
+                    errorMessage += 'خطای سرور. لطفاً بعداً تلاش کنید.';
+                } else {
+                    errorMessage += 'لطفاً دوباره تلاش کنید.';
+                }
+                
+                showMessage(errorMessage, 'error');
+            },
+            complete: function() {
+                // Re-enable submit button
+                submitBtn.prop('disabled', false);
+                submitBtnText.text('ثبت دیدگاه یا پرسش');
+            }
+        });
+    });
+    
+    // Reply button click
+    $(document).on('click', '.reply-btn', function() {
+        var commentId = $(this).data('comment-id');
+        var authorName = $(this).data('author-name');
+        
+        // Update form for reply
+        $('#comment-form input[name="parent_id"]').val(commentId);
+        
+        // Show reply info
+        var replyInfo = $('.reply-info');
+        replyInfo.removeClass('hidden');
+        replyInfo.find('.reply-author').text(authorName);
+        
+        // Focus on textarea
+        $('#comment-form textarea[name="comment_content"]').focus();
+        
+        // Scroll to form
+        $('html, body').animate({
+            scrollTop: $('#comment-form').offset().top - 100
+        }, 500);
+    });
+    
+    // Cancel reply button
+    $(document).on('click', '.cancel-reply', function() {
+        $('#comment-form input[name="parent_id"]').val('0');
+        $('.reply-info').addClass('hidden');
+    });
+    
+    // Like button click
+    $(document).on('click', '.like-btn', function() {
+        var btn = $(this);
+        var commentId = btn.data('comment-id');
+        
+        // Prevent multiple clicks
+        if (btn.hasClass('processing')) {
+            return;
+        }
+        
+        btn.addClass('processing');
+        
+        $.ajax({
+            url: themeData.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'like_comment',
+                comment_id: commentId,
+                nonce: themeData.comment_nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    var data = response.data;
+                    
+                    // Update button appearance
+                    if (data.user_liked) {
+                        btn.addClass('liked').removeClass('text-muted').addClass('text-red-500');
+                    } else {
+                        btn.removeClass('liked').removeClass('text-red-500').addClass('text-muted');
+                    }
+                    
+                    // Update likes count if there's a counter
+                    var likesCounter = btn.find('.likes-count');
+                    if (likesCounter.length) {
+                        likesCounter.text(data.likes_count);
+                    }
+                    
+                    // Show feedback
+                    if (data.action === 'liked') {
+                        showMessage('کامنت لایک شد.', 'success');
+                    } else {
+                        showMessage('لایک کامنت حذف شد.', 'info');
+                    }
+                } else {
+                    var errorMessage = response.data || 'خطا در لایک کردن. لطفاً دوباره تلاش کنید.';
+                    showMessage(errorMessage, 'error');
+                    console.error('Like error:', response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Like AJAX Error:', {xhr: xhr, status: status, error: error});
+                
+                var errorMessage = 'خطا در لایک کردن. ';
+                if (xhr.status === 403) {
+                    errorMessage += 'لطفاً دوباره وارد شوید.';
+                } else {
+                    errorMessage += 'لطفاً دوباره تلاش کنید.';
+                }
+                
+                showMessage(errorMessage, 'error');
+            },
+            complete: function() {
+                btn.removeClass('processing');
+            }
+        });
+    });
+    
+    // Helper function to show messages
+    function showMessage(message, type) {
+        var alertClass = type === 'success' ? 'bg-green-100 text-green-800 border-green-200' : 
+                        type === 'error' ? 'bg-red-100 text-red-800 border-red-200' : 
+                        'bg-blue-100 text-blue-800 border-blue-200';
+        
+        var messageHtml = '<div class="fixed top-4 right-4 z-50 p-4 border rounded-lg shadow-lg ' + alertClass + ' max-w-sm">' +
+                         '<div class="flex items-center justify-between">' +
+                         '<span class="text-sm font-medium">' + message + '</span>' +
+                         '<button type="button" class="mr-2 text-lg font-bold close-message">&times;</button>' +
+                         '</div>' +
+                         '</div>';
+        
+        $('body').append(messageHtml);
+        
+        // Auto remove after 5 seconds
+        setTimeout(function() {
+            $('.fixed.top-4.right-4').fadeOut(300, function() {
+                $(this).remove();
+            });
+        }, 5000);
+    }
+    
+    // Close message manually
+    $(document).on('click', '.close-message', function() {
+        $(this).closest('.fixed').fadeOut(300, function() {
+            $(this).remove();
+        });
+    });
 });
