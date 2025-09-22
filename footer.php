@@ -26,8 +26,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">آکــــادمـــی</span>
-                                <span class="font-black text-xl">نـــابــــغه</span>
+                                <span class="font-semibold text-sm text-muted">توسعه با</span>
+                                <span class="font-black text-xl">آرش فدایی</span>
                             </span>
                         </a>
                     </div>

@@ -1,0 +1,273 @@
+/* Override WooCommerce styles for My Account pages */
+
+/* حذف استایل‌های پیش‌فرض woocommerce */
+.woocommerce {
+    /* Reset any unwanted woocommerce styles */
+}
+
+.woocommerce-page {
+    /* Reset any unwanted woocommerce-page styles */
+}
+
+.woocommerce-account {
+    /* Reset any unwanted woocommerce-account styles */
+}
+
+/* استایل‌های سفارشی برای صفحه اکانت */
+.account-page-custom {
+    /* Your custom styles here */
+}
+
+/* اگر می‌خواهید div اصلی را کاملاً مخفی کنید */
+/*
+.woocommerce {
+    display: none !important;
+}
+*/
+
+/* یا اگر می‌خواهید فقط کلاس‌ها را reset کنید */
+.woocommerce,
+.woocommerce-page,
+.woocommerce-account {
+    /* Reset properties */
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/* رفع مشکل alignment در my-account page */
+.woocommerce-MyAccount-navigation {
+    height: fit-content !important;
+    align-self: start !important;
+}
+
+/* اطمینان از درست بودن grid layout */
+.woocommerce .grid {
+    display: grid !important;
+    align-items: start !important;
+}
+
+/* رفع مشکل spacing در light mode */
+.woocommerce .grid.grid-cols-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 2rem !important;
+}
+
+/* تنظیم صحیح col-span ها */
+.woocommerce .col-span-12 {
+    grid-column: span 12 / span 12 !important;
+}
+
+@media (min-width: 768px) {
+    .woocommerce .md\:col-span-4 {
+        grid-column: span 4 / span 4 !important;
+    }
+    
+    .woocommerce .md\:col-span-8 {
+        grid-column: span 8 / span 8 !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .woocommerce .lg\:col-span-3 {
+        grid-column: span 3 / span 3 !important;
+    }
+    
+    .woocommerce .lg\:col-span-9 {
+        grid-column: span 9 / span 9 !important;
+    }
+}
+
+/* رفع مشکل vertical alignment */
+.woocommerce-MyAccount-content {
+    height: fit-content !important;
+}
+
+/* تنظیم navigation sticky */
+.woocommerce-MyAccount-navigation .sticky {
+    position: sticky !important;
+    top: 2rem !important;
+}
+
+/* رفع مشکل background در light mode */
+.woocommerce .bg-background {
+    background-color: var(--background) !important;
+}
+
+/* اطمینان از درست بودن border radius */
+.woocommerce .rounded-3xl {
+    border-radius: 1.5rem !important;
+}
+
+/* رفع مشکل padding */
+.woocommerce .p-6 {
+    padding: 1.5rem !important;
+}
+
+/* تنظیم shadow */
+.woocommerce .shadow-sm {
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+/* رفع مشکل border */
+.woocommerce .border {
+    border-width: 1px !important;
+}
+
+.woocommerce .border-border\/50 {
+    border-color: hsl(var(--border) / 0.5) !important;
+}
+
+/* اطمینان از درست بودن container */
+.woocommerce-MyAccount-wrapper .container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* رفع مشکل gap در grid */
+.woocommerce .gap-8 {
+    gap: 2rem !important;
+}
+
+/* تنظیم درست navigation */
+.woocommerce-MyAccount-navigation ul {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* رفع مشکل flex layout */
+.woocommerce .flex {
+    display: flex !important;
+}
+
+.woocommerce .items-center {
+    align-items: center !important;
+}
+
+.woocommerce .justify-between {
+    justify-content: space-between !important;
+}
+
+/* تنظیم space-y */
+.woocommerce .space-y-8 > * + * {
+    margin-top: 2rem !important;
+}
+
+.woocommerce .space-y-3 > * + * {
+    margin-top: 0.75rem !important;
+}
+
+.woocommerce .space-y-5 > * + * {
+    margin-top: 1.25rem !important;
+}
+
+/* رفع مشکل responsive */
+@media (max-width: 767px) {
+    .woocommerce .grid-cols-12 {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .woocommerce .col-span-12 {
+        grid-column: 1 / -1 !important;
+    }
+    
+    /* تنظیم navigation در mobile */
+    .woocommerce-MyAccount-navigation {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    /* تنظیم container در mobile */
+    .woocommerce-MyAccount-wrapper .container {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+    
+    /* تنظیم gap در mobile */
+    .woocommerce .gap-8 {
+        gap: 1rem !important;
+    }
+    
+    /* تنظیم statistics grid در mobile */
+    .woocommerce .grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+    
+    /* تنظیم padding در mobile */
+    .woocommerce .p-8 {
+        padding: 1rem !important;
+    }
+    
+    .woocommerce .p-6 {
+        padding: 1rem !important;
+    }
+    
+    .woocommerce .p-3 {
+        padding: 0.75rem !important;
+    }
+}
+
+/* تنظیمات tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .woocommerce .md\:col-span-4 {
+        grid-column: span 4 / span 4 !important;
+    }
+    
+    .woocommerce .md\:col-span-8 {
+        grid-column: span 8 / span 8 !important;
+    }
+    
+    /* تنظیم navigation sticky در tablet */
+    .woocommerce-MyAccount-navigation .sticky {
+        position: sticky !important;
+        top: 1.5rem !important;
+    }
+}
+
+/* تنظیمات desktop */
+@media (min-width: 1024px) {
+    .woocommerce .lg\:col-span-3 {
+        grid-column: span 3 / span 3 !important;
+    }
+    
+    .woocommerce .lg\:col-span-9 {
+        grid-column: span 9 / span 9 !important;
+    }
+    
+    .woocommerce .lg\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+    
+    .woocommerce .lg\:flex-row {
+        flex-direction: row !important;
+    }
+    
+    .woocommerce .lg\:items-center {
+        align-items: center !important;
+    }
+}
+
+/* تنظیم درست text alignment */
+.woocommerce .text-right {
+    text-align: right !important;
+}
+
+.woocommerce .text-center {
+    text-align: center !important;
+}
+
+/* رفع مشکل overflow */
+.woocommerce .overflow-hidden {
+    overflow: hidden !important;
+}
+
+/* تنظیم line-clamp */
+.woocommerce .line-clamp-1 {
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 1 !important;
+}

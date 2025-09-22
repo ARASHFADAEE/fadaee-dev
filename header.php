@@ -8,7 +8,7 @@
 
 </head>
 
-<body>
+<body <?php body_class(); ?>>
 
     <div class="flex flex-col min-h-screen bg-background">
         <!-- header -->
