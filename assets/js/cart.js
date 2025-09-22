@@ -6,6 +6,9 @@
 (function($) {
     'use strict';
 
+    // Global variable to store the item key to be deleted
+    let currentDeleteItemKey = null;
+
     // Cart object to handle all cart operations
     const ArashCart = {
         
@@ -33,6 +36,12 @@
             
             // Clear cart
             $(document).on('click', '.clear-cart-btn', this.clearCart);
+            
+            // Remove item buttons (store the key for deletion)
+            $(document).on('click', '.remove-item', function() {
+                currentDeleteItemKey = $(this).data('cart-key');
+                console.log('Remove button clicked, stored key:', currentDeleteItemKey);
+            });
             
             // Delete confirmation modal
             $(document).on('click', '.confirm-delete', this.confirmDelete);
@@ -107,25 +116,53 @@
                 e.preventDefault();
             }
             
-            const cartItemKey = $('.delete-modal').data('cart-item-key');
+            // Get cart item key from the global variable
+            let cartItemKey = currentDeleteItemKey;
+            
+            console.log('Cart item key for deletion:', cartItemKey);
             
             if (!cartItemKey) {
+                console.error('No cart item key found for deletion');
+                ArashCart.showMessage('خطا: شناسه محصول یافت نشد', 'error');
                 return;
             }
 
             const data = {
-                cart_item_key: cartItemKey
+                cart_item_key: cartItemKey,
+                nonce: arash_ajax.nonce
             };
 
+            console.log('Sending delete request with data:', data);
+
             ArashCart.makeAjaxRequest('arash_remove_from_cart', data, function(response) {
-                ArashCart.hideDeleteModal();
+                console.log('Delete response:', response);
                 
                 if (response.success) {
                     ArashCart.showMessage(response.data.message, 'success');
+                    
+                    // Remove the cart item from UI
+                    const $cartItem = $(`.cart-item[data-cart-key="${cartItemKey}"]`);
+                    if ($cartItem.length) {
+                        $cartItem.fadeOut(300, function() {
+                            $(this).remove();
+                            
+                            // Check if cart is empty
+                            if ($('.cart-item').length === 0) {
+                                location.reload(); // Reload to show empty cart message
+                            }
+                        });
+                    }
+                    
+                    // Update cart totals and count
                     ArashCart.updateCartDisplay(response.data.cart_data);
                     ArashCart.updateCartCount(response.data.cart_count);
+                    
+                    // Update cart total in UI
+                    if (response.data.cart_total) {
+                        $('.cart-total, .total-amount').text(response.data.cart_total);
+                    }
                 } else {
-                    ArashCart.showMessage(response.data.message, 'error');
+                    ArashCart.showMessage(response.data.message || 'خطا در حذف محصول', 'error');
                 }
             });
         },
