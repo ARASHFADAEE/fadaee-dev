@@ -271,3 +271,14 @@
     -webkit-box-orient: vertical !important;
     -webkit-line-clamp: 1 !important;
 }
+
+
+.woocommerce table.shop_table {
+    border: 1px solid rgba(0,0,0,.1);
+    margin: 0 0 24px -1px;
+    text-align: right;
+    width: 100%;
+    border-collapse: separate;
+    border-radius: 24px;
+    padding: 5px;
+}

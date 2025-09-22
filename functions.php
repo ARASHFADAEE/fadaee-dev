@@ -17,12 +17,22 @@ function arash_enqueue_assets() {
     // Enqueue scripts
     wp_enqueue_script('alpine-js', ARASH_THEME_DIR . '/assets/js/dependencies/alpinejs.min.js', array(), '1.0', true);
     wp_enqueue_script('swiper-js', ARASH_THEME_DIR . '/assets/js/dependencies/swiper-bundle.min.js', array(), '1.0', true);
-    wp_enqueue_script('plyr-js', ARASH_THEME_DIR . '/assets/js/dependencies/plyr.min.js', array(), '1.0', true);
-    wp_enqueue_script('fadaee-dev-script', ARASH_THEME_DIR . '/assets/js/app.js', array('alpine-js', 'swiper-js', 'plyr-js'), '1.0', true);
+    // wp_enqueue_script('plyr-js', ARASH_THEME_DIR . '/assets/js/dependencies/plyr.min.js', array(), '1.0', true);
+    wp_enqueue_script('fadaee-dev-script', ARASH_THEME_DIR . '/assets/js/app.js', array('alpine-js', 'swiper-js'), '1.0', true);
+    if(is_single()){
     wp_enqueue_script('theme-ajax-script', ARASH_THEME_DIR . '/assets/js/theme.js', array('jquery'), '1.0', true);
-    wp_enqueue_script('shop-ajax-script', ARASH_THEME_DIR . '/assets/js/shop.js', array('jquery'), '1.0', true);
+    }
+    if(is_shop()){
+        wp_enqueue_script('shop-ajax-script', ARASH_THEME_DIR . '/assets/js/shop.js', array('jquery'), '1.0', true);
+    }
+
+    if(is_cart()){
     wp_enqueue_script('cart-ajax-script', ARASH_THEME_DIR . '/assets/js/cart.js', array('jquery'), '1.2', true);
+    }
+
+
     wp_enqueue_script('portfolio-archive-ajax-script', ARASH_THEME_DIR . '/assets/js/portfolio.js', array('jquery'), '1.2', true);
+
     
     // Enqueue category filters script on category pages
     if (is_category() || is_home() || is_archive()) {

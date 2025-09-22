@@ -16,7 +16,7 @@
                             </svg>
                         </span>
                         <div class="flex flex-col space-y-2">
-                            <span class="font-black xs:text-2xl text-lg text-primary"><?php echo get_the_archive_title()?></span>
+                            <span class="font-black xs:text-2xl text-lg text-primary">مقالات من</span>
                             <span class="font-semibold text-xs text-muted">از گوشه و اطراف دنیای برنامه‌نویسی</span>
                         </div>
                     </div>
