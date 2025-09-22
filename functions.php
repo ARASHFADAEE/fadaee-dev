@@ -23,7 +23,11 @@ function arash_enqueue_assets() {
     wp_enqueue_script('shop-ajax-script', ARASH_THEME_DIR . '/assets/js/shop.js', array('jquery'), '1.0', true);
     wp_enqueue_script('cart-ajax-script', ARASH_THEME_DIR . '/assets/js/cart.js', array('jquery'), '1.2', true);
 
-
+    // Enqueue checkout styles and scripts on checkout page
+    if (is_checkout() || is_wc_endpoint_url('order-received')) {
+        wp_enqueue_style('checkout-css', ARASH_THEME_DIR . '/assets/css/checkout.css', array('main-css'), '1.0');
+        wp_enqueue_script('checkout-js', ARASH_THEME_DIR . '/assets/js/checkout.js', array('jquery', 'wc-checkout'), '1.0', true);
+    }
     
 }
 add_action('wp_enqueue_scripts', 'arash_enqueue_assets');

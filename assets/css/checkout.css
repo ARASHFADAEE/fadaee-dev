@@ -1,0 +1,590 @@
+/* ==========================================================================
+   WooCommerce Checkout Styles
+   ========================================================================== */
+
+/* CSS Variables for consistent theming */
+:root {
+  --checkout-primary: #3b82f6;
+  --checkout-primary-hover: #2563eb;
+  --checkout-success: #10b981;
+  --checkout-error: #ef4444;
+  --checkout-warning: #f59e0b;
+  --checkout-border: #e5e7eb;
+  --checkout-border-focus: #3b82f6;
+  --checkout-background: #ffffff;
+  --checkout-card: #f9fafb;
+  --checkout-text: #111827;
+  --checkout-text-muted: #6b7280;
+  --checkout-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --checkout-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --checkout-radius: 0.75rem;
+  --checkout-radius-lg: 1rem;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --checkout-primary: #60a5fa;
+    --checkout-primary-hover: #3b82f6;
+    --checkout-success: #34d399;
+    --checkout-error: #f87171;
+    --checkout-warning: #fbbf24;
+    --checkout-border: #374151;
+    --checkout-border-focus: #60a5fa;
+    --checkout-background: #1f2937;
+    --checkout-card: #111827;
+    --checkout-text: #f9fafb;
+    --checkout-text-muted: #9ca3af;
+    --checkout-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --checkout-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* ==========================================================================
+   Checkout Container & Layout
+   ========================================================================== */
+
+.woocommerce-checkout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.checkout-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .checkout-container {
+    grid-template-columns: 1fr 400px;
+    gap: 3rem;
+  }
+}
+
+/* ==========================================================================
+   Form Styling
+   ========================================================================== */
+
+.woocommerce-checkout .form-row {
+  margin-bottom: 1.5rem;
+}
+
+.woocommerce-checkout label {
+  display: block;
+  font-weight: 600;
+  color: var(--checkout-text);
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.woocommerce-checkout label .required {
+  color: var(--checkout-error);
+  margin-right: 0.25rem;
+}
+
+.woocommerce-checkout input[type="text"],
+.woocommerce-checkout input[type="email"],
+.woocommerce-checkout input[type="tel"],
+.woocommerce-checkout input[type="password"],
+.woocommerce-checkout select,
+.woocommerce-checkout textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--checkout-border);
+  border-radius: var(--checkout-radius);
+  background-color: var(--checkout-background);
+  color: var(--checkout-text);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.woocommerce-checkout input:focus,
+.woocommerce-checkout select:focus,
+.woocommerce-checkout textarea:focus {
+  outline: none;
+  border-color: var(--checkout-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.woocommerce-checkout input::placeholder,
+.woocommerce-checkout textarea::placeholder {
+  color: var(--checkout-text-muted);
+}
+
+/* ==========================================================================
+   Validation States
+   ========================================================================== */
+
+.woocommerce-checkout .woocommerce-validated input,
+.woocommerce-checkout .woocommerce-validated select,
+.woocommerce-checkout .woocommerce-validated textarea {
+  border-color: var(--checkout-success);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2310b981'%3e%3cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143Z' clip-rule='evenodd'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: left 0.75rem center;
+  background-size: 1rem 1rem;
+  padding-left: 2.5rem;
+}
+
+.woocommerce-checkout .woocommerce-invalid input,
+.woocommerce-checkout .woocommerce-invalid select,
+.woocommerce-checkout .woocommerce-invalid textarea {
+  border-color: var(--checkout-error);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23ef4444'%3e%3cpath fill-rule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0Zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5Zm0 10a1 1 0 100-2 1 1 0 000 2Z' clip-rule='evenodd'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: left 0.75rem center;
+  background-size: 1rem 1rem;
+  padding-left: 2.5rem;
+}
+
+/* ==========================================================================
+   Error Messages
+   ========================================================================== */
+
+.woocommerce-checkout .woocommerce-error,
+.woocommerce-checkout .woocommerce-message,
+.woocommerce-checkout .woocommerce-info {
+  padding: 1rem 1.5rem;
+  border-radius: var(--checkout-radius);
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  position: relative;
+}
+
+.woocommerce-checkout .woocommerce-error {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border-left: 4px solid var(--checkout-error);
+}
+
+.woocommerce-checkout .woocommerce-message {
+  background-color: #f0fdf4;
+  color: #166534;
+  border-left: 4px solid var(--checkout-success);
+}
+
+.woocommerce-checkout .woocommerce-info {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-left: 4px solid var(--checkout-primary);
+}
+
+.woocommerce-checkout .woocommerce-error::before,
+.woocommerce-checkout .woocommerce-message::before,
+.woocommerce-checkout .woocommerce-info::before {
+  display: none;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.woocommerce-checkout .button,
+.woocommerce-checkout button,
+.woocommerce-checkout input[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background-color: var(--checkout-primary);
+  color: white;
+  border: none;
+  border-radius: var(--checkout-radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  font-family: inherit;
+}
+
+.woocommerce-checkout .button:hover,
+.woocommerce-checkout button:hover,
+.woocommerce-checkout input[type="submit"]:hover {
+  background-color: var(--checkout-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--checkout-shadow-lg);
+}
+
+.woocommerce-checkout .button:active,
+.woocommerce-checkout button:active,
+.woocommerce-checkout input[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.woocommerce-checkout .button:disabled,
+.woocommerce-checkout button:disabled,
+.woocommerce-checkout input[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.woocommerce-checkout .button.alt {
+  background-color: var(--checkout-success);
+}
+
+.woocommerce-checkout .button.alt:hover {
+  background-color: #059669;
+}
+
+/* ==========================================================================
+   Checkout Sections
+   ========================================================================== */
+
+.checkout-section {
+  background: var(--checkout-card);
+  border: 1px solid var(--checkout-border);
+  border-radius: var(--checkout-radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--checkout-shadow);
+}
+
+.checkout-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--checkout-text);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.checkout-section h3 svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--checkout-primary);
+}
+
+/* ==========================================================================
+   Order Review
+   ========================================================================== */
+
+.order-review-section {
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+.order-review-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.order-review-table th,
+.order-review-table td {
+  padding: 1rem;
+  text-align: right;
+  border-bottom: 1px solid var(--checkout-border);
+}
+
+.order-review-table th {
+  font-weight: 600;
+  color: var(--checkout-text);
+  background-color: var(--checkout-background);
+}
+
+.order-review-table .product-thumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--checkout-radius);
+  overflow: hidden;
+  background-color: var(--checkout-border);
+}
+
+.order-review-table .product-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.order-review-table .product-name {
+  font-weight: 500;
+  color: var(--checkout-text);
+}
+
+.order-review-table .product-quantity {
+  font-weight: 600;
+  color: var(--checkout-primary);
+}
+
+.order-review-table .product-total {
+  font-weight: 600;
+  color: var(--checkout-text);
+}
+
+.order-review-table .order-total {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--checkout-primary);
+}
+
+/* ==========================================================================
+   Payment Methods
+   ========================================================================== */
+
+.payment-methods {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.payment-method {
+  border: 2px solid var(--checkout-border);
+  border-radius: var(--checkout-radius);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.payment-method:hover {
+  border-color: var(--checkout-primary);
+  box-shadow: var(--checkout-shadow);
+}
+
+.payment-method.selected {
+  border-color: var(--checkout-primary);
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.payment-method label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  margin: 0;
+  font-weight: 500;
+}
+
+.payment-method input[type="radio"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+}
+
+.payment-method .payment-box {
+  padding: 1.5rem;
+  background-color: var(--checkout-background);
+  border-top: 1px solid var(--checkout-border);
+  display: none;
+}
+
+.payment-method.selected .payment-box {
+  display: block;
+}
+
+/* ==========================================================================
+   Loading States
+   ========================================================================== */
+
+.checkout-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.checkout-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--checkout-radius);
+  z-index: 10;
+}
+
+.checkout-loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--checkout-border);
+  border-top: 3px solid var(--checkout-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 11;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   Progress Indicator
+   ========================================================================== */
+
+.checkout-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--checkout-radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--checkout-text-muted);
+  position: relative;
+}
+
+.progress-step.active {
+  color: var(--checkout-primary);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.progress-step.completed {
+  color: var(--checkout-success);
+}
+
+.progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2px;
+  background-color: var(--checkout-border);
+  z-index: -1;
+}
+
+.progress-step.completed:not(:last-child)::after {
+  background-color: var(--checkout-success);
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .woocommerce-checkout {
+    padding: 1rem;
+  }
+  
+  .checkout-section {
+    padding: 1.5rem;
+  }
+  
+  .checkout-section h3 {
+    font-size: 1.125rem;
+  }
+  
+  .order-review-section {
+    position: static;
+  }
+  
+  .order-review-table th,
+  .order-review-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .payment-method label {
+    padding: 1rem;
+  }
+  
+  .payment-method .payment-box {
+    padding: 1rem;
+  }
+  
+  .checkout-progress {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .progress-step:not(:last-child)::after {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+.woocommerce-checkout *:focus {
+  outline: 2px solid var(--checkout-primary);
+  outline-offset: 2px;
+}
+
+.woocommerce-checkout .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .woocommerce-checkout input,
+  .woocommerce-checkout select,
+  .woocommerce-checkout textarea,
+  .woocommerce-checkout .button,
+  .checkout-section {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .woocommerce-checkout *,
+  .woocommerce-checkout *::before,
+  .woocommerce-checkout *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .woocommerce-checkout .button:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+  .woocommerce-checkout .button,
+  .woocommerce-checkout button,
+  .checkout-progress {
+    display: none;
+  }
+  
+  .checkout-section {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .woocommerce-checkout {
+    max-width: none;
+    padding: 0;
+  }
+}

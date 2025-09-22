@@ -42,37 +42,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="w-full flex flex-col space-y-5">
-                                <span class="font-bold text-sm text-foreground">تگ های محبوب</span>
-                                <ul id="popular-tags" class="flex flex-wrap gap-3">
-                                    <?php
-                                    // Get popular tags dynamically
-                                    $popular_tags = get_tags(array(
-                                        'orderby' => 'count',
-                                        'order' => 'DESC',
-                                        'number' => 10
-                                    ));
-                                    
-                                    if (!empty($popular_tags)) {
-                                        foreach ($popular_tags as $tag) {
-                                            ?>
-                                            <li>
-                                                <a href="#" data-tag="<?php echo esc_attr($tag->slug); ?>"
-                                                    class="tag-filter inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                    # <?php echo esc_html($tag->name); ?>
-                                                </a>
-                                            </li>
-                                            <?php
-                                        }
-                                    } else {
-                                        ?>
-                                        <li>
-                                            <span class="text-muted text-xs">هیچ تگی یافت نشد</span>
-                                        </li>
-                                        <?php
-                                    }
-                                    ?>
-                            </div>
+
                             <!-- accordion:container -->
                             <div class="flex flex-col divide-y divide-border">
                                 <!-- accordion -->
@@ -246,71 +216,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="w-full flex flex-col space-y-5">
-                                                <span class="font-bold text-sm text-foreground">تگ های محبوب</span>
-                                                <ul class="flex flex-wrap gap-3">
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # لاراول
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # طراحی_وب
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # جاوااسکریپت
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # php
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # ریکت
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # وردپرس
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # فلاتر
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # تیلویند
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # برنامه نویسی
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"
-                                                            class="inline-flex items-center h-9 bg-secondary rounded-xl font-semibold text-xs text-muted transition-colors hover:text-primary px-4">
-                                                            # متفرقه
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+
                                             <!-- accordion:container -->
                                             <div class="flex flex-col divide-y divide-border">
                                                 <!-- accordion -->
