@@ -45,21 +45,69 @@
    ========================================================================== */
 
 .woocommerce-checkout {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0.75rem;
+  min-height: 100vh;
 }
 
 .checkout-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Mobile First Responsive Design */
+@media (min-width: 480px) {
+  .woocommerce-checkout {
+    padding: 1rem;
+  }
+  
+  .checkout-container {
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .woocommerce-checkout {
+    padding: 1.5rem;
+  }
+  
+  .checkout-container {
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .woocommerce-checkout {
+    padding: 2rem;
+  }
+  
+  .checkout-container {
+    gap: 2rem;
+  }
 }
 
 @media (min-width: 1024px) {
   .checkout-container {
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 420px;
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1280px) {
+  .checkout-container {
+    grid-template-columns: 1fr 480px;
     gap: 3rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .checkout-container {
+    grid-template-columns: 1fr 520px;
+    gap: 4rem;
   }
 }
 
@@ -68,7 +116,53 @@
    ========================================================================== */
 
 .woocommerce-checkout .form-row {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile optimized spacing */
+@media (max-width: 767px) {
+  .woocommerce-checkout .form-row {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Form grid layout for better UX */
+.woocommerce-checkout .form-row-wide {
+  width: 100%;
+}
+
+.woocommerce-checkout .form-row-first,
+.woocommerce-checkout .form-row-last {
+  width: 100%;
+}
+
+/* Desktop form grid */
+@media (min-width: 768px) {
+  .checkout-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .checkout-form-grid .form-row-first,
+  .checkout-form-grid .form-row-last {
+    width: 100%;
+    margin-bottom: 1.25rem;
+  }
+  
+  .checkout-form-grid .form-row-wide {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Mobile form improvements */
+@media (max-width: 767px) {
+  .woocommerce-checkout .form-row-first,
+  .woocommerce-checkout .form-row-last {
+    margin-bottom: 1rem;
+  }
 }
 
 .woocommerce-checkout label {
@@ -77,6 +171,15 @@
   color: var(--checkout-text);
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Mobile label improvements */
+@media (max-width: 767px) {
+  .woocommerce-checkout label {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .woocommerce-checkout label .required {
@@ -91,14 +194,31 @@
 .woocommerce-checkout select,
 .woocommerce-checkout textarea {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 1rem;
   border: 2px solid var(--checkout-border);
   border-radius: var(--checkout-radius);
   background-color: var(--checkout-background);
   color: var(--checkout-text);
-  font-size: 0.875rem;
+  font-size: 1rem;
   transition: all 0.2s ease;
   font-family: inherit;
+  min-height: 48px; /* Touch-friendly minimum height */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Mobile input improvements */
+@media (max-width: 767px) {
+  .woocommerce-checkout input[type="text"],
+  .woocommerce-checkout input[type="email"],
+  .woocommerce-checkout input[type="tel"],
+  .woocommerce-checkout input[type="password"],
+  .woocommerce-checkout select,
+  .woocommerce-checkout textarea {
+    padding: 1.125rem 1rem;
+    font-size: 1rem;
+    min-height: 52px; /* Larger touch targets on mobile */
+  }
 }
 
 .woocommerce-checkout input:focus,
@@ -191,18 +311,43 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
+  padding: 1rem 1.5rem;
   background-color: var(--checkout-primary);
   color: white;
   border: none;
   border-radius: var(--checkout-radius);
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s ease;
   min-height: 48px;
   font-family: inherit;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Mobile button improvements */
+@media (max-width: 767px) {
+  .woocommerce-checkout .button,
+  .woocommerce-checkout button,
+  .woocommerce-checkout input[type="submit"] {
+    padding: 1.25rem 1.5rem;
+    font-size: 1.1rem;
+    min-height: 56px;
+    border-radius: 12px;
+  }
+}
+
+/* Desktop button improvements */
+@media (min-width: 768px) {
+  .woocommerce-checkout .button,
+  .woocommerce-checkout button,
+  .woocommerce-checkout input[type="submit"] {
+    width: auto;
+    min-width: 200px;
+  }
 }
 
 .woocommerce-checkout .button:hover,
@@ -244,9 +389,28 @@
   background: var(--checkout-card);
   border: 1px solid var(--checkout-border);
   border-radius: var(--checkout-radius-lg);
-  padding: 2rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
   box-shadow: var(--checkout-shadow);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile checkout section improvements */
+@media (max-width: 767px) {
+  .checkout-section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--checkout-radius);
+  }
+}
+
+/* Desktop checkout section improvements */
+@media (min-width: 768px) {
+  .checkout-section {
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .checkout-section h3 {
@@ -259,10 +423,26 @@
   gap: 0.75rem;
 }
 
+/* Mobile heading improvements */
+@media (max-width: 767px) {
+  .checkout-section h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+}
+
 .checkout-section h3 svg {
   width: 1.5rem;
   height: 1.5rem;
   color: var(--checkout-primary);
+}
+
+/* Mobile SVG improvements */
+@media (max-width: 767px) {
+  .checkout-section h3 svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
 }
 
 /* ==========================================================================
@@ -275,10 +455,23 @@
   height: fit-content;
 }
 
+/* Mobile order review adjustments */
+@media (max-width: 1023px) {
+  .order-review-section {
+    position: static;
+    top: auto;
+    margin-top: 2rem;
+  }
+}
+
 .order-review-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
+  background-color: var(--checkout-background);
+  border-radius: var(--checkout-radius);
+  overflow: hidden;
+  box-shadow: var(--checkout-shadow);
 }
 
 .order-review-table th,
@@ -286,6 +479,19 @@
   padding: 1rem;
   text-align: right;
   border-bottom: 1px solid var(--checkout-border);
+}
+
+/* Mobile table improvements */
+@media (max-width: 767px) {
+  .order-review-table th,
+  .order-review-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .order-review-table {
+    margin-bottom: 1rem;
+  }
 }
 
 .order-review-table th {
@@ -365,6 +571,22 @@
   cursor: pointer;
   margin: 0;
   font-weight: 500;
+  min-height: 60px;
+  transition: all 0.2s ease;
+}
+
+/* Mobile payment method improvements */
+@media (max-width: 767px) {
+  .payment-method label {
+    padding: 1.25rem 1rem;
+    gap: 0.75rem;
+    min-height: 64px;
+    font-size: 1rem;
+  }
+  
+  .payment-method {
+    margin-bottom: 0.75rem;
+  }
 }
 
 .payment-method input[type="radio"] {
@@ -568,7 +790,63 @@
 }
 
 /* ==========================================================================
-   Print Styles
+   Mobile Specific Optimizations
+   ========================================================================== */
+
+/* Prevent horizontal scroll on mobile */
+@media (max-width: 767px) {
+  .woocommerce-checkout {
+    overflow-x: hidden;
+  }
+  
+  /* Improve form field groups */
+  .woocommerce-checkout .form-row-first,
+  .woocommerce-checkout .form-row-last {
+    width: 100% !important;
+    float: none !important;
+    margin-right: 0 !important;
+  }
+  
+  /* Better spacing for checkout sections */
+  .checkout-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--checkout-background);
+    border-radius: var(--checkout-radius);
+    box-shadow: var(--checkout-shadow);
+  }
+  
+  /* Optimize select dropdowns for mobile */
+  .woocommerce-checkout select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 3rem;
+  }
+  
+  /* Improve checkbox and radio button touch targets */
+  .woocommerce-checkout input[type="checkbox"],
+  .woocommerce-checkout input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.75rem;
+  }
+}
+
+/* Tablet specific improvements */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .checkout-container {
+    gap: 2.5rem;
+  }
+  
+  .woocommerce-checkout {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   Accessibility & Print Styles
    ========================================================================== */
 
 @media print {

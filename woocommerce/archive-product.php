@@ -16,8 +16,8 @@
                             </svg>
                         </span>
                         <div class="flex flex-col space-y-2">
-                            <span class="font-black xs:text-2xl text-lg text-primary">فرانت اند</span>
-                            <span class="font-semibold text-xs text-muted">دوره ببین، تمرین کن، برنامه نویس شو</span>
+                            <span class="font-black xs:text-2xl text-lg text-primary">محصولات تخصصی</span>
+                            <span class="font-semibold text-xs text-muted">استفاده کن , بفروش , موفق شو</span>
                         </div>
                     </div>
                     <!-- end section:title -->

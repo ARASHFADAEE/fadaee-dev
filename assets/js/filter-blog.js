@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('category', selectedCategory);
         formData.append('sort', sortBy);
         formData.append('tag', currentTag);
-        formData.append('page', page);
+        formData.append('paged', page);
         formData.append('nonce', blogAjax.nonce);
         
         // Make AJAX request

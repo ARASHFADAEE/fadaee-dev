@@ -62,14 +62,18 @@ get_header(); ?>
                         <!-- Billing Fields -->
                         <div class="bg-card border border-border rounded-2xl p-6">
                             <h3 class="font-bold text-lg text-foreground mb-4">اطلاعات صورتحساب</h3>
-                            <?php do_action( 'woocommerce_checkout_billing' ); ?>
+                            <div class="checkout-form-grid">
+                                <?php do_action( 'woocommerce_checkout_billing' ); ?>
+                            </div>
                         </div>
 
                         <!-- Shipping Fields -->
                         <?php if ( WC()->cart->needs_shipping_address() === true ) : ?>
                             <div class="bg-card border border-border rounded-2xl p-6">
                                 <h3 class="font-bold text-lg text-foreground mb-4">اطلاعات ارسال</h3>
-                                <?php do_action( 'woocommerce_checkout_shipping' ); ?>
+                                <div class="checkout-form-grid">
+                                    <?php do_action( 'woocommerce_checkout_shipping' ); ?>
+                                </div>
                             </div>
                         <?php endif; ?>
 

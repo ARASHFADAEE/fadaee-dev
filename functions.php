@@ -22,6 +22,7 @@ function arash_enqueue_assets() {
     wp_enqueue_script('theme-ajax-script', ARASH_THEME_DIR . '/assets/js/theme.js', array('jquery'), '1.0', true);
     wp_enqueue_script('shop-ajax-script', ARASH_THEME_DIR . '/assets/js/shop.js', array('jquery'), '1.0', true);
     wp_enqueue_script('cart-ajax-script', ARASH_THEME_DIR . '/assets/js/cart.js', array('jquery'), '1.2', true);
+    wp_enqueue_script('portfolio-archive-ajax-script', ARASH_THEME_DIR . '/assets/js/portfolio.js', array('jquery'), '1.2', true);
 
     // Enqueue checkout styles and scripts on checkout page
     if (is_checkout() || is_wc_endpoint_url('order-received')) {
@@ -53,6 +54,9 @@ get_template_part('inc/shop/archive-products');
 //cart shop ajax handlers
 get_template_part('inc/shop/cart');
 
+
+get_template_part('inc/porfolio/archive-portfolios');
+
 //add localize script
 function arash_localize_script() {
     
@@ -77,6 +81,15 @@ function arash_localize_script() {
 
     // Localize script for cart.js Ajax functionality
     wp_localize_script('cart-ajax-script', 'arash_ajax', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('ajax-nonce'),
+        'siteurl' => SITE_URL,
+        'themedir' => ARASH_THEME_DIR,
+        'isUserLoggedIn' => is_user_logged_in()
+    ));
+
+    // Localize script for portfolio.js Ajax functionality
+    wp_localize_script('portfolio-archive-ajax-script', 'portfolio_ajax', array(
         'ajax_url' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('ajax-nonce'),
         'siteurl' => SITE_URL,
@@ -110,7 +123,7 @@ add_action('init' , function(){
     }
 });
 
-
-
+// Include portfolio AJAX handler
+require_once get_template_directory() . '/inc/portfolio/archive-portfolios.php';
 
 ?>

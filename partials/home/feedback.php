@@ -1,4 +1,4 @@
-        <div class="overflow-x-hidden py-20">
+<div class="overflow-x-hidden py-20">
             <!-- container -->
             <div class="max-w-7xl px-4 mx-auto">
                 <div class="md:grid md:grid-cols-12 md:gap-10 md:space-y-0 space-y-5">
@@ -13,73 +13,129 @@
                             </svg>
                         </span>
                         <div class="flex flex-col space-y-2">
-                            <span class="font-black xs:text-2xl text-lg text-primary">در مورد نابغه چه
-                                میشنویم؟</span>
+                            <span class="font-black xs:text-2xl text-lg text-primary">در مورد آرش فدایی چه میشنویم ؟</span>
                             <span class="font-semibold xs:text-base text-sm text-muted">این‌ها، بخش خیلی کوچکی
                                 از نظراتی
                                 هستند
                                 که افراد
-                                مختلف در مورد نابغه دارند.</span>
+                                مختلف در مورد آرش فدایی  دارند.</span>
                         </div>
                     </div>
                     <div class="md:col-span-8 w-full max-w-xl mx-auto">
+                        <?php
+                        // Get featured testimonials
+                        $testimonials_query = new WP_Query(array(
+                            'post_type' => 'testimonial',
+                            'posts_per_page' => 6,
+                            'post_status' => 'publish',
+                            'meta_query' => array(
+                                array(
+                                    'key' => '_testimonial_featured',
+                                    'value' => '1',
+                                    'compare' => '='
+                                )
+                            ),
+                            'orderby' => 'date',
+                            'order' => 'DESC'
+                        ));
+
+                        if ($testimonials_query->have_posts()) : ?>
                         <div class="swiper card-swiper-slider">
                             <div class="swiper-wrapper">
+                                <?php while ($testimonials_query->have_posts()) : $testimonials_query->the_post();
+                                    // Get testimonial meta data
+                                    $client_name = get_post_meta(get_the_ID(), '_client_name', true);
+                                    $client_position = get_post_meta(get_the_ID(), '_client_position', true);
+                                    $client_company = get_post_meta(get_the_ID(), '_client_company', true);
+                                    $client_avatar = get_post_meta(get_the_ID(), '_client_avatar', true);
+                                    $testimonial_rating = get_post_meta(get_the_ID(), '_testimonial_rating', true);
+                                    $project_name = get_post_meta(get_the_ID(), '_project_name', true);
+                                    
+                                    // Fallback avatar if none provided
+                                    if (empty($client_avatar)) {
+                                        $client_avatar = ARASH_THEME_DIR . '/assets/images/avatars/default.svg';
+                                    }
+                                ?>
                                 <div class="swiper-slide pb-8">
-                                    <div
-                                        class="flex flex-col items-center justify-center bg-background border border-border rounded-2xl shadow-xl shadow-black/5 space-y-8 p-8">
+                                    <div class="flex flex-col items-center justify-center bg-background border border-border rounded-2xl shadow-xl shadow-black/5 space-y-8 p-8">
+                                        <!-- Testimonial Content -->
                                         <div class="font-semibold text-sm text-muted text-center">
-                                            وبسایت شما به خوبی به نیازها و سطح دانش کاربران پاسخ می‌دهد. از
-                                            مبتدیان
-                                            تا
-                                            حرفه‌ایان، می‌توانند از محتواهای آموزشی شما بهره‌بردند. این
-                                            گسترده‌بودن
-                                            پوشش
-                                            محتوا بسیار قابل قدردانی است.
+                                            <?php echo wp_kses_post(get_the_content()); ?>
                                         </div>
+                                        
+                                        <!-- Rating Stars -->
+                                        <?php if ($testimonial_rating) : ?>
+                                        <div class="flex items-center gap-1">
+                                            <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" 
+                                                     class="w-4 h-4 <?php echo $i <= $testimonial_rating ? 'text-yellow-400' : 'text-gray-300'; ?>">
+                                                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+                                                </svg>
+                                            <?php endfor; ?>
+                                        </div>
+                                        <?php endif; ?>
+                                        
+                                        <!-- Client Info -->
                                         <div class="flex items-center gap-3">
                                             <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                <img src="<?php echo ARASH_THEME_DIR ?>/assets/images/avatars/01.jpeg"
-                                                    class="w-full h-full object-cover" alt="...">
+                                                <img src="<?php echo esc_url($client_avatar); ?>" 
+                                                     class="w-full h-full object-cover" 
+                                                     alt="<?php echo esc_attr($client_name); ?>">
                                             </div>
                                             <div class="flex flex-col items-start space-y-1">
                                                 <span class="line-clamp-1 font-bold text-xs text-foreground">
-                                                    جلال بهرامی راد
+                                                    <?php echo esc_html($client_name); ?>
                                                 </span>
                                                 <span class="font-semibold text-xs text-muted">
-                                                    دوره پروژه محور React و Next
+                                                    <?php 
+                                                    if ($project_name) {
+                                                        echo esc_html($project_name);
+                                                    } elseif ($client_position && $client_company) {
+                                                        echo esc_html($client_position . ' - ' . $client_company);
+                                                    } elseif ($client_position) {
+                                                        echo esc_html($client_position);
+                                                    } elseif ($client_company) {
+                                                        echo esc_html($client_company);
+                                                    }
+                                                    ?>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <?php endwhile; ?>
+                            </div>
+                        <?php else : ?>
+                        <!-- Fallback content if no testimonials found -->
+                        <div class="swiper card-swiper-slider">
+                            <div class="swiper-wrapper">
                                 <div class="swiper-slide pb-8">
-                                    <div
-                                        class="flex flex-col items-center justify-center bg-background border border-border rounded-2xl shadow-xl shadow-black/5 space-y-8 p-8">
+                                    <div class="flex flex-col items-center justify-center bg-background border border-border rounded-2xl shadow-xl shadow-black/5 space-y-8 p-8">
                                         <div class="font-semibold text-sm text-muted text-center">
-                                            من به تیم شما بابت پشتیبانی عالیتان از وبسایتتان تشکر می‌کنم. سوالات
-                                            و
-                                            مشکلات من به سرعت پاسخ داده می‌شوند و همیشه یک راه حل مناسب برای هر
-                                            مشکل
-                                            پیدا می‌کنید. این امر بسیار قابل ارزش است.
+                                            هنوز نظری ثبت نشده است. اولین نظر خود را در پنل مدیریت اضافه کنید.
                                         </div>
                                         <div class="flex items-center gap-3">
-                                            <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                <img src="<?php echo ARASH_THEME_DIR ?>/assets/images/avatars/01.jpeg"
-                                                    class="w-full h-full object-cover" alt="...">
+                                            <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-gray-200">
+                                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                                    </svg>
+                                                </div>
                                             </div>
                                             <div class="flex flex-col items-start space-y-1">
                                                 <span class="line-clamp-1 font-bold text-xs text-foreground">
-                                                    جلال بهرامی راد
+                                                    نام مشتری
                                                 </span>
                                                 <span class="font-semibold text-xs text-muted">
-                                                    دوره پروژه محور React و Next
+                                                    نام پروژه
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        <?php endif; 
+                        wp_reset_postdata(); ?>
 
                             <div class="swiper-button-prev"></div>
                             <div class="swiper-button-next"></div>

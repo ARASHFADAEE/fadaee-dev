@@ -16,7 +16,7 @@
                             </svg>
                         </span>
                         <div class="flex flex-col space-y-2">
-                            <span class="font-black xs:text-2xl text-lg text-primary">فرانت اند</span>
+                            <span class="font-black xs:text-2xl text-lg text-primary">مقالات من</span>
                             <span class="font-semibold text-xs text-muted">از گوشه و اطراف دنیای برنامه‌نویسی</span>
                         </div>
                     </div>
@@ -200,19 +200,19 @@
                                         <div class="p-4">
                                             <div class="w-full flex flex-col space-y-3 mb-5">
                                                 <span class="font-bold text-sm text-foreground">جستجو مقالات</span>
-                                                <form action="#">
+                                                <form action="<?php echo esc_url(home_url('/')); ?>" method="get">
                                                     <div class="flex items-center relative">
-                                                        <input type="text"
-                                                            class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground"
+                                                        <input type="text" name="s" value="<?php echo get_search_query(); ?>"
+                                                            class="blog-search-input form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground"
                                                             placeholder="عنوان مقاله..">
-                                                        <span class="absolute left-3 text-muted">
+                                                        <button type="submit" class="absolute left-3 text-muted hover:text-primary transition-colors">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                                 fill="currentColor" class="w-5 h-5">
                                                                 <path fill-rule="evenodd"
                                                                     d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
                                                                     clip-rule="evenodd"></path>
                                                             </svg>
-                                                        </span>
+                                                        </button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -252,30 +252,24 @@
                                                     <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
                                                         <div class="space-y-2">
                                                             <label class="flex items-center gap-2 cursor-pointer">
-                                                                <input type="radio" name="category"
-                                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                                <span class="text-sm text-muted">لاراول</span>
+                                                                <input type="radio" name="mobile-category" value="all" checked
+                                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" />
+                                                                <span class="text-sm text-muted">همه دسته‌ها</span>
                                                             </label>
+                                                            <?php
+                                                            $mobile_categories = get_categories(array(
+                                                                'orderby' => 'name',
+                                                                'order' => 'ASC',
+                                                                'hide_empty' => true
+                                                            ));
+                                                            foreach ($mobile_categories as $mobile_category) :
+                                                            ?>
                                                             <label class="flex items-center gap-2 cursor-pointer">
-                                                                <input type="radio" name="category"
-                                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                                <span class="text-sm text-muted">وردپرس</span>
+                                                                <input type="radio" name="mobile-category" value="<?php echo esc_attr($mobile_category->slug); ?>"
+                                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" />
+                                                                <span class="text-sm text-muted"><?php echo esc_html($mobile_category->name); ?></span>
                                                             </label>
-                                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                                <input type="radio" name="category"
-                                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                                <span class="text-sm text-muted">جاوااسکریپت</span>
-                                                            </label>
-                                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                                <input type="radio" name="category"
-                                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                                <span class="text-sm text-muted">اندروید</span>
-                                                            </label>
-                                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                                <input type="radio" name="category"
-                                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                                <span class="text-sm text-muted">پایتون</span>
-                                                            </label>
+                                                            <?php endforeach; ?>
                                                         </div>
                                                     </div><!-- end accordion:content -->
                                                 </div><!-- accordion -->
