@@ -247,7 +247,7 @@ if ($sale_prie) {
 
                                         <!-- product:description -->
                                         <div class="description">
-                                         <?php the_content()?>
+                                            <?php the_content() ?>
                                         </div>
                                         <!-- end product:description -->
                                     </div><!-- end tabs:contents:tabOne -->
@@ -321,15 +321,35 @@ if ($sale_prie) {
                         </div>
                     </div>
                     <div class="flex gap-3 mt-3">
-                        <?php do_action('woocommerce_before_add_to_cart_button'); ?>
+
+                        <?php if (is_user_logged_in()): ?>
+
+                            <?php do_action('woocommerce_before_add_to_cart_button'); ?>
 
 
 
 
-                        <?php do_action('woocommerce_after_add_to_cart_button'); ?>
+
+                            <?php do_action('woocommerce_after_add_to_cart_button'); ?>
+
+
+                        <?php else: ?>
+
+                            <a href="<?php echo get_home_url() ?>/my-account" type="button"
+                                class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                                <span class="font-semibold text-sm">برای ثبت سفارش وارد شوید </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    class="w-5 h-5">
+                                    <path fill-rule="evenodd"
+                                        d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
 
 
 
+
+                        <?php endif; ?>
                     </div>
                 </div>
                 <!-- end course:registering -->
