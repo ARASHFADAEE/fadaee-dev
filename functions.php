@@ -395,4 +395,7 @@ function handle_blog_filter() {
 add_action('wp_ajax_blog_filter', 'handle_blog_filter');
 add_action('wp_ajax_nopriv_blog_filter', 'handle_blog_filter');
 
+
+
+
 ?>
