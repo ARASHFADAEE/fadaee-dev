@@ -15,15 +15,60 @@
         })();
     </script>
     
+    <!-- CSS Custom Properties for Dark Mode -->
+    <style>
+        :root {
+            /* Light mode colors */
+            --background: 255 255 255; /* white */
+            --foreground: 15 23 42; /* slate-900 */
+            --primary: 59 130 246; /* blue-500 */
+            --primary-foreground: 255 255 255; /* white */
+            --secondary: 241 245 249; /* slate-100 */
+            --secondary-foreground: 15 23 42; /* slate-900 */
+            --muted: 100 116 139; /* slate-500 */
+            --muted-foreground: 71 85 105; /* slate-600 */
+            --border: 226 232 240; /* slate-200 */
+            --input: 241 245 249; /* slate-100 */
+            --ring: 59 130 246; /* blue-500 */
+        }
+        
+        .dark {
+            /* Dark mode colors */
+            --background: 2 6 23; /* slate-950 */
+            --foreground: 248 250 252; /* slate-50 */
+            --primary: 59 130 246; /* blue-500 */
+            --primary-foreground: 255 255 255; /* white */
+            --secondary: 30 41 59; /* slate-800 */
+            --secondary-foreground: 248 250 252; /* slate-50 */
+            --muted: 100 116 139; /* slate-500 */
+            --muted-foreground: 148 163 184; /* slate-400 */
+            --border: 51 65 85; /* slate-700 */
+            --input: 30 41 59; /* slate-800 */
+            --ring: 59 130 246; /* blue-500 */
+        }
+        
+        /* Ensure proper color application */
+        .bg-background { background-color: hsl(var(--background)); }
+        .text-foreground { color: hsl(var(--foreground)); }
+        .bg-primary { background-color: hsl(var(--primary)); }
+        .text-primary { color: hsl(var(--primary)); }
+        .text-primary-foreground { color: hsl(var(--primary-foreground)); }
+        .bg-secondary { background-color: hsl(var(--secondary)); }
+        .text-secondary-foreground { color: hsl(var(--secondary-foreground)); }
+        .text-muted { color: hsl(var(--muted)); }
+        .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+        .border-border { border-color: hsl(var(--border)); }
+    </style>
+    
     <?php wp_head() ?>
 
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class('bg-background dark:bg-slate-900 text-foreground dark:text-slate-50'); ?>>
 
-    <div class="flex flex-col min-h-screen bg-background">
+    <div class="flex flex-col min-h-screen bg-background dark:bg-slate-900">
         <!-- header -->
-        <header class="bg-background/80 backdrop-blur-xl border-b border-border sticky top-0 z-30"
+        <header class="bg-background/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-border dark:border-slate-700 sticky top-0 z-30"
             x-data="{ offcanvasOpen: false, openSearchBox: false }">
             <!-- container -->
             <div class="max-w-7xl relative px-4 mx-auto">
@@ -31,7 +76,7 @@
                     <div class="flex items-center gap-3">
                         <!-- offcanvas:button -->
                         <button type="button"
-                            class="lg:hidden inline-flex items-center justify-center relative w-10 h-10 bg-secondary rounded-full text-foreground"
+                            class="lg:hidden inline-flex items-center justify-center relative w-10 h-10 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50"
                             x-on:click="offcanvasOpen = true">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6">
@@ -50,8 +95,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">توسعه</span>
-                                <span class="font-black text-xl">آرش</span>
+                                <span class="font-semibold text-sm text-muted dark:text-slate-400">توسعه</span>
+                                <span class="font-black text-xl dark:text-slate-50">آرش</span>
                             </span>
                         </a>
                     </div>
@@ -68,7 +113,7 @@
                     <div class="flex items-center md:gap-5 gap-3 mr-auto">
                         <!-- darkMode:button -->
                         <button type="button"
-                            class="hidden lg:inline-flex items-center justify-center w-10 h-10 bg-secondary rounded-full text-foreground"
+                            class="hidden lg:inline-flex items-center justify-center w-10 h-10 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50"
                             id="dark-mode-button">
                             <span class="light-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -89,7 +134,7 @@
 
                         <!-- openSearchBox:button -->
                         <button type="button"
-                            class="hidden lg:inline-flex items-center justify-center w-10 h-10 bg-secondary rounded-full text-foreground"
+                            class="hidden lg:inline-flex items-center justify-center w-10 h-10 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50"
                             x-on:click="openSearchBox = true">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-5 h-5">
@@ -100,7 +145,7 @@
                         <!-- end openSearchBox:button -->
 
                         <a href="<?php echo wc_get_cart_url()?>"
-                            class="inline-flex items-center justify-center relative w-10 h-10 bg-secondary rounded-full text-foreground">
+                            class="inline-flex items-center justify-center relative w-10 h-10 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,10 +175,10 @@
             <!-- offcanvas -->
             <div x-cloak>
                 <!-- offcanvas:box -->
-                <div class="fixed inset-y-0 right-0 xs:w-80 w-72 h-screen bg-background rounded-l-2xl overflow-y-auto transition-transform z-50"
+                <div class="fixed inset-y-0 right-0 xs:w-80 w-72 h-screen bg-background dark:bg-slate-900 rounded-l-2xl overflow-y-auto transition-transform z-50"
                     x-bind:class="offcanvasOpen ? '!translate-x-0' : 'translate-x-full'">
                     <!-- offcanvas:header -->
-                    <div class="flex items-center justify-between gap-x-4 sticky top-0 bg-background p-4 z-10">
+                    <div class="flex items-center justify-between gap-x-4 sticky top-0 bg-background dark:bg-slate-900 p-4 z-10">
                         <a href="./home.html" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
@@ -144,14 +189,14 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">توسعه</span>
-                                <span class="font-black text-xl">آرش</span>
+                                <span class="font-semibold text-sm text-muted dark:text-slate-400">توسعه</span>
+                                <span class="font-black text-xl dark:text-slate-50">آرش</span>
                             </span>
                         </a>
 
                         <!-- offcanvas:close-button -->
                         <button x-on:click="offcanvasOpen = false"
-                            class="text-foreground focus:outline-none hover:text-red-500">
+                            class="text-foreground dark:text-slate-50 focus:outline-none hover:text-red-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
@@ -165,7 +210,7 @@
                 </div><!-- end offcanvas:box -->
 
                 <!-- offcanvas:overlay -->
-                <div class="fixed inset-0 h-screen bg-secondary/80 cursor-pointer transition-all duration-1000 z-40"
+                <div class="fixed inset-0 h-screen bg-secondary/80 dark:bg-slate-900/80 cursor-pointer transition-all duration-1000 z-40"
                     x-bind:class="offcanvasOpen ? 'opacity-100 visible' : 'opacity-0 invisible'"
                     x-on:click="offcanvasOpen = false">
                 </div><!-- end offcanvas:overlay -->

@@ -3,9 +3,9 @@
         <footer class="pt-20">
             <div class="max-w-7xl px-4 mx-auto">
                 <div class="flex items-center gap-3">
-                    <div class="flex-grow border-t border-border border-dashed"></div>
+                    <div class="flex-grow border-t border-border dark:border-slate-700 border-dashed"></div>
                     <button type="button"
-                        class="flex-shrink-0 h-11 inline-flex items-center gap-3 bg-secondary rounded-full text-foreground transition-colors hover:text-primary px-4"
+                        class="flex-shrink-0 h-11 inline-flex items-center gap-3 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50 transition-colors hover:text-primary dark:hover:text-blue-400 px-4"
                         id="scrollToTopBtn">
                         <span class="text-xs">برگشت به بالا</span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -26,8 +26,8 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="flex flex-col items-start">
-                                <span class="font-semibold text-sm text-muted">توسعه با</span>
-                                <span class="font-black text-xl">آرش فدایی</span>
+                                <span class="font-semibold text-sm text-muted dark:text-slate-400">توسعه با</span>
+                    <span class="font-black text-xl dark:text-slate-50">آرش فدایی</span>
                             </span>
                         </a>
                     </div>
@@ -39,7 +39,7 @@
                             <div class="flex flex-wrap items-center gap-10">
                                 <div class="flex items-center gap-5">
                                     <span
-                                        class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-muted">
+                                        class="flex items-center justify-center w-12 h-12 bg-secondary dark:bg-slate-800 rounded-full text-muted dark:text-slate-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                             class="w-5 h-5">
                                             <path fill-rule="evenodd"
@@ -48,13 +48,13 @@
                                         </svg>
                                     </span>
                                     <div class="flex flex-col font-black space-y-2">
-                                        <span class="text-sm text-primary">شماره تلفن</span>
-                                        <span class="text-foreground">۰۲۱−۱۲۳۴۵۶۷</span>
+                                        <span class="text-sm text-primary dark:text-blue-400">شماره تلفن</span>
+                                        <span class="text-foreground dark:text-slate-50">۰۲۱−۱۲۳۴۵۶۷</span>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-5">
                                     <span
-                                        class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-muted">
+                                        class="flex items-center justify-center w-12 h-12 bg-secondary dark:bg-slate-800 rounded-full text-muted dark:text-slate-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                             class="w-5 h-5">
                                             <path fill-rule="evenodd"
@@ -63,8 +63,8 @@
                                         </svg>
                                     </span>
                                     <div class="flex flex-col font-black space-y-2">
-                                        <span class="text-sm text-primary">ساعات کاری</span>
-                                        <span class="text-foreground">۰۹:۰۰ - ۱۷:۰۰</span>
+                                        <span class="text-sm text-primary dark:text-blue-400">ساعات کاری</span>
+                                        <span class="text-foreground dark:text-slate-50">۰۹:۰۰ - ۱۷:۰۰</span>
                                     </div>
                                 </div>
                             </div>
@@ -77,15 +77,15 @@
                             <?php dynamic_sidebar('footer-about'); ?>
                         <?php else : ?>
                             <!-- Default About Section -->
-                            <div class="bg-secondary rounded-3xl space-y-5 p-8">
+                            <div class="bg-secondary dark:bg-slate-800 rounded-3xl space-y-5 p-8">
                                 <div class="flex items-center gap-3">
                                     <div class="flex items-center gap-1">
-                                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                                        <div class="w-1 h-1 bg-foreground dark:bg-slate-50 rounded-full"></div>
+                                        <div class="w-2 h-2 bg-foreground dark:bg-slate-50 rounded-full"></div>
                                     </div>
-                                    <div class="font-black text-foreground">دربــــاره</div>
+                                    <div class="font-black text-foreground dark:text-slate-50">دربــــاره</div>
                                 </div>
-                                <p class="font-semibold text-sm text-muted">
+                                <p class="font-semibold text-sm text-muted dark:text-slate-400">
                                     نابغه یکی از پرتلاش‌ترین و بروزترین وبسایت های آموزشی در سطح ایران
                                     است که همیشه تلاش کرده تا بتواند جدیدترین و بروزترین مقالات و
                                     دوره‌های آموزشی را در اختیار علاقه‌مندان ایرانی قرار دهد. تبدیل کردن
@@ -104,30 +104,30 @@
                                     <div class="space-y-5">
                                         <div class="flex items-center gap-3">
                                             <div class="flex items-center gap-1">
-                                                <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                                <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                                                <div class="w-1 h-1 bg-foreground dark:bg-slate-50 rounded-full"></div>
+                                                <div class="w-2 h-2 bg-foreground dark:bg-slate-50 rounded-full"></div>
                                             </div>
-                                            <div class="font-black text-foreground">لینک های مفید</div>
+                                            <div class="font-black text-foreground dark:text-slate-50">لینک های مفید</div>
                                         </div>
                                         <ul class="flex flex-col space-y-1">
                                             <li>
                                                 <a href="#"
-                                                    class="inline-flex font-semibold text-sm text-muted hover:text-primary">قوانین
+                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">قوانین
                                                     و
                                                     مقررات</a>
                                             </li>
                                             <li>
                                                 <a href="#"
-                                                    class="inline-flex font-semibold text-sm text-muted hover:text-primary">مدرسان</a>
+                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">مدرسان</a>
                                             </li>
                                             <li>
                                                 <a href="#"
-                                                    class="inline-flex font-semibold text-sm text-muted hover:text-primary">درباره
+                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">درباره
                                                     نابغه</a>
                                             </li>
                                             <li>
                                                 <a href="#"
-                                                    class="inline-flex font-semibold text-sm text-muted hover:text-primary">ارتباط
+                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">ارتباط
                                                     با
                                                     ما</a>
                                             </li>
@@ -144,18 +144,18 @@
                                         <div class="space-y-5">
                                             <div class="flex items-center gap-3">
                                                 <div class="flex items-center gap-1">
-                                                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                                                    <div class="w-1 h-1 bg-foreground dark:bg-slate-50 rounded-full"></div>
+                                                    <div class="w-2 h-2 bg-foreground dark:bg-slate-50 rounded-full"></div>
                                                 </div>
-                                                <div class="font-black text-foreground">خبرنامه</div>
+                                                <div class="font-black text-foreground dark:text-slate-50">خبرنامه</div>
                                             </div>
-                                            <p class="text-sm text-muted">
+                                            <p class="text-sm text-muted dark:text-slate-400">
                                                 برای اطلاع از جدیدترین اخبار و جشنوراه‌های تخفیفی نابغه ایمیل خود
                                                 را وارد کنید.
                                             </p>
                                             <form action="#">
                                                 <div class="flex items-center gap-3 relative">
-                                                    <span class="absolute right-3 text-muted">
+                                                    <span class="absolute right-3 text-muted dark:text-slate-400">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                             fill="currentColor" class="w-5 h-5">
                                                             <path
@@ -167,10 +167,10 @@
                                                         </svg>
                                                     </span>
                                                     <input type="email"
-                                                        class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border rounded-xl text-sm text-foreground pr-10"
+                                                        class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary dark:bg-slate-800 border-0 focus:border-border dark:focus:border-slate-600 rounded-xl text-sm text-foreground dark:text-slate-50 pr-10"
                                                         placeholder="آدرس ایمیل" required />
                                                     <button type="submit"
-                                                        class="h-11 inline-flex items-center justify-center gap-3 bg-primary rounded-xl whitespace-nowrap text-xs text-primary-foreground transition-all hover:opacity-80 px-4">ثبت
+                                                        class="h-11 inline-flex items-center justify-center gap-3 bg-primary dark:bg-blue-600 rounded-xl whitespace-nowrap text-xs text-primary-foreground dark:text-white transition-all hover:opacity-80 px-4">ثبت
                                                         ایمیل</button>
                                                 </div>
                                             </form>
@@ -185,15 +185,15 @@
                                         <div class="space-y-5">
                                             <div class="flex items-center gap-3">
                                                 <div class="flex items-center gap-1">
-                                                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                                                    <div class="w-1 h-1 bg-foreground dark:bg-slate-50 rounded-full"></div>
+                                                    <div class="w-2 h-2 bg-foreground dark:bg-slate-50 rounded-full"></div>
                                                 </div>
-                                                <div class="font-black text-foreground">شبکه های اجتماعی</div>
+                                                <div class="font-black text-foreground dark:text-slate-50">شبکه های اجتماعی</div>
                                             </div>
                                             <ul class="flex flex-wrap items-center gap-5">
                                                 <li>
                                                     <a href="#"
-                                                        class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-foreground transition-colors hover:text-primary">
+                                                        class="flex items-center justify-center w-12 h-12 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50 transition-colors hover:text-primary dark:hover:text-blue-400">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                             stroke-linejoin="round" class="w-5 h-5">
@@ -205,7 +205,7 @@
                                                 </li>
                                                 <li>
                                                     <a href="#"
-                                                        class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-foreground transition-colors hover:text-primary">
+                                                        class="flex items-center justify-center w-12 h-12 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50 transition-colors hover:text-primary dark:hover:text-blue-400">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                             stroke-linejoin="round" class="w-5 h-5">
@@ -216,7 +216,7 @@
                                                 </li>
                                                 <li>
                                                     <a href="#"
-                                                        class="flex items-center justify-center w-12 h-12 bg-secondary rounded-full text-foreground transition-colors hover:text-primary">
+                                                        class="flex items-center justify-center w-12 h-12 bg-secondary dark:bg-slate-800 rounded-full text-foreground dark:text-slate-50 transition-colors hover:text-primary dark:hover:text-blue-400">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                             stroke-linejoin="round" class="w-5 h-5">
@@ -236,8 +236,8 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3 py-5">
-                    <p class="text-xs text-muted">&#169; کليه حقوق محفوظ است</p>
-                    <div class="flex-grow border-t border-border border-dashed"></div>
+                    <p class="text-xs text-muted dark:text-slate-400">&#169; کليه حقوق محفوظ است</p>
+                    <div class="flex-grow border-t border-border dark:border-slate-700 border-dashed"></div>
                 </div>
             </div>
         </footer>

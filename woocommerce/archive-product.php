@@ -5,9 +5,9 @@
             <div class="max-w-7xl space-y-14 px-4 mx-auto">
                 <div class="space-y-8">
                     <!-- section:title -->
-                    <div class="flex items-center gap-5 bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
+                    <div class="flex items-center gap-5 bg-gradient-to-l from-secondary to-background dark:from-slate-800 dark:to-slate-900 rounded-2xl p-5">
                         <span
-                            class="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground rounded-full">
+                            class="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground dark:bg-blue-600 dark:text-white rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-5 h-5">
                                 <path fill-rule="evenodd"
@@ -16,8 +16,8 @@
                             </svg>
                         </span>
                         <div class="flex flex-col space-y-2">
-                            <span class="font-black xs:text-2xl text-lg text-primary">محصولات تخصصی</span>
-                            <span class="font-semibold text-xs text-muted">استفاده کن , بفروش , موفق شو</span>
+                            <span class="font-black xs:text-2xl text-lg text-primary dark:text-blue-400">محصولات تخصصی</span>
+                            <span class="font-semibold text-xs text-muted dark:text-slate-400">استفاده کن , بفروش , موفق شو</span>
                         </div>
                     </div>
                     <!-- end section:title -->
@@ -25,13 +25,13 @@
                     <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
                         <div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
                             <div class="w-full flex flex-col space-y-3 mb-3">
-                                <span class="font-bold text-sm text-foreground">جستجو دوره</span>
+                                <span class="font-bold text-sm text-foreground dark:text-slate-50">جستجو دوره</span>
                                 <form action="#">
                                     <div class="flex items-center relative">
                                         <input type="text" id="product-search"
-                                            class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground"
+                                            class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary dark:bg-slate-800 !border-0 rounded-xl text-sm text-foreground dark:text-slate-50"
                                             placeholder="عنوان محصوله..">
-                                        <span class="absolute left-3 text-muted">
+                                        <span class="absolute left-3 text-muted dark:text-slate-400">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                 fill="currentColor" class="w-5 h-5">
                                                 <path fill-rule="evenodd"
@@ -42,23 +42,23 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="w-full h-11 flex items-center bg-secondary rounded-2xl px-3">
+                            <div class="w-full h-11 flex items-center bg-secondary dark:bg-slate-800 rounded-2xl px-3">
                                 <label class="relative w-full flex items-center justify-between cursor-pointer">
-                                    <span class="font-bold text-sm text-foreground">در حال برگزاری</span>
+                                    <span class="font-bold text-sm text-foreground dark:text-slate-50">در حال برگزاری</span>
                                     <input type="checkbox" value="" class="sr-only peer" />
                                     <div
-                                        class="w-11 h-5 relative bg-background border-2 border-border peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:border-primary">
+                                        class="w-11 h-5 relative bg-background dark:bg-slate-900 border-2 border-border dark:border-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background dark:peer-checked:after:bg-slate-900 after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border dark:after:bg-slate-600 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary dark:peer-checked:bg-blue-600 peer-checked:border-primary dark:peer-checked:border-blue-600">
                                     </div>
                                 </label>
                             </div>
                             <!-- accordion:container -->
-                            <div class="flex flex-col divide-y divide-border">
+                            <div class="flex flex-col divide-y divide-border dark:divide-slate-700">
                                 <!-- accordion -->
                                 <div class="w-full space-y-2 py-3" x-data="{ open: true }">
                                     <!-- accordion:button -->
                                     <button type="button"
-                                        class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-primary px-3"
-                                        x-bind:class="open ? 'text-primary' : 'text-foreground'"
+                                        class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary dark:bg-slate-800 rounded-2xl transition hover:text-primary dark:hover:text-blue-400 px-3"
+                                        x-bind:class="open ? 'text-primary dark:text-blue-400' : 'text-foreground dark:text-slate-50'"
                                         x-on:click="open = !open">
                                         <span class="flex items-center gap-x-2">
                                             <span class="flex-shrink-0">
@@ -80,7 +80,7 @@
                                     </button><!-- end accordion:button -->
 
                                     <!-- accordion:content -->
-                                    <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
+                                    <div class="bg-secondary dark:bg-slate-800 rounded-2xl relative p-3" x-show="open">
                                         <div id="product-type-filter" class="space-y-2">
                                             <?php
                                             // Get product categories
@@ -95,9 +95,9 @@
                                             ?>
                                             <label class="flex items-center gap-2 cursor-pointer">
                                                 <input type="radio" name="type" value="<?php echo esc_attr($category->slug); ?>"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted"><?php echo esc_html($category->name); ?></span>
-                                                <span class="text-sm text-muted mr-auto"><?php echo $product_count; ?></span>
+                                                    class="form-radio !ring-0 !ring-offset-0 bg-border dark:bg-slate-600 border-0" />
+                                                <span class="text-sm text-muted dark:text-slate-400"><?php echo esc_html($category->name); ?></span>
+                                                <span class="text-sm text-muted dark:text-slate-400 mr-auto"><?php echo $product_count; ?></span>
                                             </label>
                                             <?php 
                                                 endforeach;
@@ -119,7 +119,7 @@
                                     <div class="flex items-center gap-3">
                                         <!-- form:select:label -->
                                         <label
-                                            class="sm:flex hidden items-center gap-1 font-semibold text-xs text-muted">
+                                            class="sm:flex hidden items-center gap-1 font-semibold text-xs text-muted dark:text-slate-400">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                 fill="currentColor" class="w-5 h-5">
                                                 <path
@@ -160,7 +160,7 @@
 
                                             <!-- form:select:button -->
                                             <button x-on:click="open = !open"
-                                                class="flex items-center w-full h-11 relative bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4">
+                                                class="flex items-center w-full h-11 relative bg-secondary dark:bg-slate-800 rounded-2xl font-semibold text-xs text-foreground dark:text-slate-50 px-4">
                                                 <span class="line-clamp-1" x-text="selectedOption"></span>
                                                 <span class="absolute left-3 pointer-events-none transition-transform"
                                                     x-bind:class="open ? 'rotate-180' : ''">
@@ -174,12 +174,12 @@
                                             </button><!-- end form:select:button -->
 
                                             <!-- form:select:options container -->
-                                            <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30"
+                                            <div class="absolute w-full bg-background dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden mt-2 z-30"
                                                 x-show="open" x-on:click.away="open = false">
                                                 <ul class="max-h-48 overflow-y-auto">
                                                     <template x-for="(option, index) in options" :key="index">
                                                         <!-- form:select option -->
-                                                        <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                                                        <li class="font-medium text-xs text-foreground dark:text-slate-50 cursor-pointer hover:bg-secondary dark:hover:bg-slate-800 px-4 py-3"
                                                             x-on:click="selectOption(option)"
                                                             x-text="option.label"></li><!-- end form:select:option -->
                                                     </template>
@@ -328,20 +328,17 @@
                             <!-- end sort & filter(offcanvas) -->
 
                             <!-- Loading Overlay -->
-                            <div id="loading-overlay" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-                                <div class="bg-background rounded-2xl p-6 flex items-center gap-3">
-                                    <div class="animate-spin">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 text-primary">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                    </div>
-                                    <span class="font-semibold text-sm text-foreground">در حال بارگذاری...</span>
-                                </div>
-                            </div>
+            <div id="loading-overlay" class="hidden fixed inset-0 bg-black/10 dark:bg-white/10 backdrop-blur-sm z-50 flex items-center justify-center">
+                <div class="bg-background dark:bg-slate-900 rounded-2xl p-8 shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary dark:border-blue-400"></div>
+                        <span class="text-foreground dark:text-slate-50 font-medium">در حال بارگذاری...</span>
+                    </div>
+                </div>
+            </div>
 
                             <!-- Error Message -->
-                            <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl mb-4">
+                            <div id="error-message" class="hidden bg-red-100 dark:bg-red-900/50 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 px-4 py-3 rounded-2xl mb-4">
                                 <div class="flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
@@ -428,12 +425,12 @@
                                         </a>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="bg-background rounded-b-3xl -mt-12 pt-12">
+                                    <div class="bg-background dark:bg-slate-900 rounded-b-3xl -mt-12 pt-12">
                                         <div
-                                            class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
+                                            class="bg-gradient-to-b from-background to-secondary dark:from-slate-900 dark:to-slate-800 rounded-b-3xl space-y-2 p-5 mx-5">
                                             <div class="flex items-center gap-2">
-                                                <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                                <span class="font-bold text-xs text-success">
+                                                <span class="block w-1 h-1 bg-success dark:bg-green-400 rounded-full"></span>
+                                                <span class="font-bold text-xs text-success dark:text-green-400">
                                                     <?php 
                                                     $status = get_post_meta(get_the_ID(), '_course_status', true);
                                                     echo $status ? esc_html($status) : 'تکمیل شده';
