@@ -196,10 +196,10 @@ function render_comment($comment, $depth = 0) {
                 <p class="text-sm text-muted">برای ثبت نظر و پاسخ به دیگران، ابتدا باید وارد حساب کاربری خود شوید.</p>
             </div>
             <div class="flex items-center justify-center gap-3">
-                <a href="<?php echo wp_login_url(get_permalink()); ?>" class="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors">
+                <a href="<?php echo get_home_url()?>/my-account" class="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium hover:bg-primary/90 transition-colors">
                     ورود به حساب
                 </a>
-                <a href="<?php echo wp_registration_url(); ?>" class="bg-secondary text-foreground px-6 py-2 rounded-full text-sm font-medium hover:bg-secondary/80 transition-colors">
+                <a href="?php echo get_home_url()?>/my-account" class="bg-secondary text-foreground px-6 py-2 rounded-full text-sm font-medium hover:bg-secondary/80 transition-colors">
                     ثبت نام
                 </a>
             </div>
