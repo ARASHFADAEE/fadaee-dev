@@ -15,7 +15,7 @@ jQuery(document).ready(function ($) {
             url: themeData.ajaxurl,
             type: 'POST',
             data: {
-                action: 'mobile_ajax_search',
+                action: 'ajax_search',
                 search_query: searchQuery,
                 nonce: themeData.nonce
             },
@@ -48,7 +48,7 @@ jQuery(document).ready(function ($) {
             url: themeData.ajaxurl,
             type: 'POST',
             data: {
-                action: 'ajax_search',
+                action: 'mobile_ajax_search',
                 search_query: searchQuery,
                 nonce: themeData.nonce
             },
