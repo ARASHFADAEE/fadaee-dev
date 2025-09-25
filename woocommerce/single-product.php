@@ -322,36 +322,30 @@ if ($sale_prie) {
                     </div>
                     <div class="flex gap-3 mt-3">
 
-                        <?php if (is_user_logged_in()): ?>
 
-                            <?php do_action('woocommerce_before_add_to_cart_button'); ?>
+                        <?php do_action('woocommerce_before_add_to_cart_button'); ?>
 
-                            <?php 
+                        <?php
+                        if (is_user_logged_in()):
                             // نمایش دکمه ثبت سفارش فقط در صورتی که پلاگین quick-order فعال نباشد
-                            if (!is_plugin_active('quick-order/quick-order.php')): 
-                            ?>
-                            <a href="<?php echo get_home_url() ?>/cart/?add-to-cart=<?php echo $product_id;?>" type="button"
-                                class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                <span class="font-semibold text-sm">ثبت سفارش</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                        d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
+                            if (!is_plugin_active('quick-order/quick-order.php')):
+                        ?>
+                                <a href="<?php echo get_home_url() ?>/cart/?add-to-cart=<?php echo $product_id; ?>" type="button"
+                                    class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                                    <span class="font-semibold text-sm">ثبت سفارش</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                        class="w-5 h-5">
+                                        <path fill-rule="evenodd"
+                                            d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
                             <?php endif; ?>
 
-
-
-                            <?php do_action('woocommerce_after_add_to_cart_button'); ?>
-
-
                         <?php else: ?>
-
                             <a href="<?php echo get_home_url() ?>/my-account" type="button"
                                 class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                <span class="font-semibold text-sm">برای ثبت سفارش وارد شوید </span>
+                                <span class="font-semibold text-sm">ورود و ثبت سفارش</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                     class="w-5 h-5">
                                     <path fill-rule="evenodd"
@@ -359,11 +353,16 @@ if ($sale_prie) {
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </a>
-
-
-
-
                         <?php endif; ?>
+
+
+                        <?php do_action('woocommerce_after_add_to_cart_button'); ?>
+
+
+
+
+
+
                     </div>
                 </div>
                 <!-- end course:registering -->
@@ -408,6 +407,60 @@ if ($sale_prie) {
     <!-- end container -->
 </main>
 
+<!-- Mobile Sticky Cart Button -->
+<?php
+// Determine product type
+$product_type = get_post_meta($product_id, 'arash_product_type', true);
+if (empty($product_type)) {
+    $product_type = get_post_meta($product_id, '_product_type', true);
+}
+// If still empty, determine based on WooCommerce product type or categories
+if (empty($product_type)) {
+    $wc_product_type = $product->get_type();
+    $product_categories = wp_get_post_terms($product_id, 'product_cat', array('fields' => 'slugs'));
 
+    // Check if it's a course based on category
+    if (in_array('course', $product_categories) || in_array('courses', $product_categories)) {
+        $product_type = 'course';
+    } elseif ($wc_product_type === 'downloadable' || in_array('digital', $product_categories)) {
+        $product_type = 'digital';
+    } else {
+        $product_type = 'digital'; // Default to digital
+    }
+}
+
+// Set button text based on product type
+$button_text = ($product_type === 'course') ? 'ثبت نام در دوره' : 'ثبت سفارش و پرداخت';
+?>
+
+
+<?php if (is_user_logged_in()): ?>
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border p-4 md:hidden">
+        <div class="max-w-sm mx-auto">
+            <a href="<?php echo get_home_url() ?>/cart/?add-to-cart=<?php echo $product_id; ?>"
+                class="w-full h-12 inline-flex items-center justify-center gap-2 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-6">
+                <span class="font-semibold text-sm"><?php echo esc_html($button_text); ?></span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+<?php else: ?>
+
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border p-4 md:hidden">
+        <div class="max-w-sm mx-auto">
+            <a href="<?php echo get_home_url() ?>/my-account"
+                class="w-full h-12 inline-flex items-center justify-center gap-2 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-6">
+                <span class="font-semibold text-sm">ورود و ثبت سفارش</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                    <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+<?php endif; ?>
 
 <?php get_footer() ?>
