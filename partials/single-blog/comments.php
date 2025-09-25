@@ -107,7 +107,7 @@ function persian_time_ago($datetime) {
         <?php else: ?>
             <div class="text-center py-8">
                 <p class="text-muted mb-4">برای ارسال دیدگاه باید وارد حساب کاربری خود شوید.</p>
-                <a href="<?php echo wp_login_url(get_permalink()); ?>" 
+                <a href="<?php echo get_home_url()?>/my-account" 
                    class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-6">
                     <span class="font-semibold text-sm">ورود به حساب کاربری</span>
                 </a>
