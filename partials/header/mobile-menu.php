@@ -2,9 +2,9 @@
     <form >
         <div class="flex items-center relative">
             <input type="text" id="mobile-ajax-search-form"
-                class="form-input w-full h-10 !ring-0 !ring-offset-0 bg-secondary dark:bg-gray-700 border border-border focus:border-border rounded-xl text-sm text-foreground dark:text-white pr-10 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                class="form-input w-full h-10 !ring-0 !ring-offset-0 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:border-blue-300 dark:focus:border-blue-500 rounded-xl text-sm text-slate-900 dark:text-slate-50 pr-10 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                 placeholder="دنبال چی میگردی؟" />
-            <span class="absolute right-3 text-muted dark:text-gray-400">
+            <span class="absolute right-3 text-slate-500 dark:text-slate-400">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                     class="w-5 h-5">
                     <path fill-rule="evenodd"
@@ -16,15 +16,15 @@
         <!-- Mobile Search Results -->
         <div id="mobile-search-results" class="mt-3 max-h-64 overflow-y-auto"></div>
     </form>
-    <div class="h-px bg-border"></div>
+    <div class="h-px bg-slate-200 dark:bg-slate-700"></div>
     <label class="relative w-full flex items-center justify-between cursor-pointer">
-        <span class="font-bold text-sm text-foreground">تم تاریک</span>
+        <span class="font-bold text-sm text-slate-900 dark:text-slate-50">تم تاریک</span>
         <input type="checkbox" class="sr-only peer" id="dark-mode-checkbox" />
         <div
-            class="w-11 h-5 relative bg-background border-2 border-border peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:border-primary">
+            class="w-11 h-5 relative bg-slate-200 dark:bg-slate-700 border-2 border-slate-300 dark:border-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-white after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-slate-400 dark:after:bg-slate-300 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-500 peer-checked:border-blue-500">
         </div>
     </label>
-    <div class="h-px bg-border"></div>
+    <div class="h-px bg-slate-200 dark:bg-slate-700"></div>
     <?php
     // دریافت منوی موبایل
     $mobile_menu_name = 'mobile-menu';
@@ -96,8 +96,8 @@
                     <!-- آیتم با زیرمنو -->
                     <li x-data="{ open: false }">
                         <button type="button"
-                            class="w-full flex items-center gap-x-2 relative transition-all hover:text-foreground py-2"
-                            x-bind:class="open ? 'text-foreground' : 'text-muted'" x-on:click="open = !open">
+                            class="w-full flex items-center gap-x-2 relative transition-all hover:text-slate-900 dark:hover:text-slate-50 py-2"
+                            x-bind:class="open ? 'text-slate-900 dark:text-slate-50' : 'text-slate-600 dark:text-slate-400'" x-on:click="open = !open">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-5 h-5">
                                 <path fill-rule="evenodd"
@@ -113,7 +113,7 @@
                                 </svg>
                             </span>
                         </button>
-                        <ul class="flex flex-col relative before:content-[''] before:absolute before:inset-y-3 before:right-3 before:w-px before:bg-zinc-200 dark:before:bg-zinc-900 py-3 pr-5"
+                        <ul class="flex flex-col relative before:content-[''] before:absolute before:inset-y-3 before:right-3 before:w-px before:bg-slate-200 dark:before:bg-slate-700 py-3 pr-5"
                             x-show="open">
                             
                             <?php foreach ($first_level_item->children as $second_level_item): ?>
@@ -122,7 +122,7 @@
                                     <!-- آیتم سطح دوم با زیرمنو -->
                                     <li x-data="{ openChild: false }">
                                         <button type="button"
-                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3"
+                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-slate-500 dark:text-slate-400 transition-all group/nav-item hover:text-slate-900 dark:hover:text-slate-50 py-2 px-3"
                                             x-on:click="openChild = !openChild">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4"
@@ -132,15 +132,15 @@
                                             </svg>
                                             <span class="font-medium text-xs"><?php echo $second_level_item->title; ?></span>
                                         </button>
-                                        <ul class="flex flex-col relative before:content-[''] before:absolute before:inset-y-3 before:right-3 before:w-px before:bg-zinc-200 dark:before:bg-zinc-900 py-3 pr-5"
+                                        <ul class="flex flex-col relative before:content-[''] before:absolute before:inset-y-3 before:right-3 before:w-px before:bg-slate-200 dark:before:bg-slate-700 py-3 pr-5"
                                             x-show="openChild">
                                             
                                             <?php foreach ($second_level_item->children as $third_level_item): ?>
                                                 <li>
                                                     <a href="<?php echo $third_level_item->url; ?>"
-                                                        class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
+                                                        class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-slate-500 dark:text-slate-400 transition-all group/nav-item hover:text-slate-900 dark:hover:text-slate-50 py-2 px-3">
                                                         <span
-                                                            class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
+                                                            class="inline-flex w-2 h-px bg-slate-300 dark:bg-slate-600 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-slate-900 dark:group-hover/nav-item:bg-slate-50"></span>
                                                         <span class="font-medium text-xs"><?php echo $third_level_item->title; ?></span>
                                                     </a>
                                                 </li>
@@ -152,9 +152,9 @@
                                     <!-- آیتم سطح دوم بدون زیرمنو -->
                                     <li>
                                         <a href="<?php echo $second_level_item->url; ?>"
-                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
+                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-slate-500 dark:text-slate-400 transition-all group/nav-item hover:text-slate-900 dark:hover:text-slate-50 py-2 px-3">
                                             <span
-                                                class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
+                                                class="inline-flex w-2 h-px bg-slate-300 dark:bg-slate-600 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-slate-900 dark:group-hover/nav-item:bg-slate-50"></span>
                                             <span class="font-medium text-xs"><?php echo $second_level_item->title; ?></span>
                                         </a>
                                     </li>
@@ -168,7 +168,7 @@
                     <!-- آیتم ساده بدون زیرمنو -->
                     <li>
                         <a href="<?php echo $first_level_item->url; ?>"
-                            class="w-full flex items-center gap-x-2 relative text-muted transition-all hover:text-foreground py-2">
+                            class="w-full flex items-center gap-x-2 relative text-slate-600 dark:text-slate-400 transition-all hover:text-slate-900 dark:hover:text-slate-50 py-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -185,7 +185,7 @@
             <!-- پیام در صورت عدم وجود منو -->
             <li>
                 <div class="w-full flex items-center justify-center py-4">
-                    <span class="text-muted text-xs">منوی موبایل تنظیم نشده است</span>
+                    <span class="text-slate-500 dark:text-slate-400 text-xs">منوی موبایل تنظیم نشده است</span>
                 </div>
             </li>
         <?php endif; ?>

@@ -86,10 +86,9 @@
                                     <div class="font-black text-foreground dark:text-slate-50">دربــــاره</div>
                                 </div>
                                 <p class="font-semibold text-sm text-muted dark:text-slate-400">
-                                    نابغه یکی از پرتلاش‌ترین و بروزترین وبسایت های آموزشی در سطح ایران
-                                    است که همیشه تلاش کرده تا بتواند جدیدترین و بروزترین مقالات و
-                                    دوره‌های آموزشی را در اختیار علاقه‌مندان ایرانی قرار دهد. تبدیل کردن
-                                    برنامه نویسان ایرانی به بهترین برنامه نویسان جهان هدف ماست.
+                                    آرش فدایی متخصص توسعه وردپرس با سال‌ها تجربه در ارائه قالب‌ها و افزونه‌های
+                                    باکیفیت، امن و بهینه برای کسب و کارهای آنلاین ایرانی. هدف ما کمک به رشد
+                                    و موفقیت کسب و کارهای شما با ارائه راه‌حل‌های حرفه‌ای وردپرس است.
                                 </p>
                             </div>
                         <?php endif; ?>
@@ -111,25 +110,25 @@
                                         </div>
                                         <ul class="flex flex-col space-y-1">
                                             <li>
-                                                <a href="#"
-                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">قوانین
+                                                <a href="/shop"
+                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">قالب‌ها
                                                     و
-                                                    مقررات</a>
+                                                    افزونه‌ها</a>
                                             </li>
                                             <li>
-                                                <a href="#"
-                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">مدرسان</a>
+                                                <a href="/about-me"
+                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">درباره من</a>
                                             </li>
                                             <li>
-                                                <a href="#"
-                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">درباره
-                                                    نابغه</a>
+                                                <a href="/blog"
+                                                    class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">مقالات
+                                                    آموزشی</a>
                                             </li>
                                             <li>
-                                                <a href="#"
+                                                <a href="/contact"
                                                     class="inline-flex font-semibold text-sm text-muted dark:text-slate-400 hover:text-primary dark:hover:text-blue-400">ارتباط
                                                     با
-                                                    ما</a>
+                                                    من</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -150,7 +149,7 @@
                                                 <div class="font-black text-foreground dark:text-slate-50">خبرنامه</div>
                                             </div>
                                             <p class="text-sm text-muted dark:text-slate-400">
-                                                برای اطلاع از جدیدترین اخبار و جشنوراه‌های تخفیفی نابغه ایمیل خود
+                                                برای اطلاع از جدیدترین قالب‌ها، افزونه‌ها و مقالات آموزشی وردپرس ایمیل خود
                                                 را وارد کنید.
                                             </p>
                                             <form action="#">

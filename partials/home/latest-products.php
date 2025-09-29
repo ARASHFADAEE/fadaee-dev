@@ -21,8 +21,8 @@ if ($products->have_posts()) : ?>
                 </svg>
             </span>
             <div class="flex flex-col font-black text-2xl space-y-2">
-                <span class="font-black xs:text-2xl text-lg text-primary">آخرین محصولات</span>
-                <span class="font-semibold xs:text-base text-sm text-foreground">منتشر شده</span>
+                <span class="font-black xs:text-2xl text-lg text-primary">قالب‌ها و افزونه‌های</span>
+                <span class="font-semibold xs:text-base text-sm text-foreground">وردپرس</span>
             </div>
         </div>
         <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="sm:w-auto w-11 h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-foreground transition-colors hover:text-primary sm:px-4">

@@ -1,4 +1,4 @@
-            <div class="bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
+<div class="bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
                 <div
                     class="flex md:flex-nowrap flex-wrap md:flex-row flex-col items-center justify-center gap-10 py-16">
                     <div class="space-y-5">
@@ -17,11 +17,11 @@
                         </div>
                         <h2 class="font-black sm:text-5xl text-3xl text-foreground">
                             آرش فدایی هستم
-
+                            <span class="block text-primary sm:text-3xl text-xl mt-2">متخصص توسعه وردپرس</span>
                         </h2>
                         <p class="sm:text-base text-sm text-muted">
-                            داشتن یک بیزینس حرفه ای آرزو نیست، فقط نیاز هست که سایت باکیفیتی داشته 
-                            باشید، بقیه‌اش با من
+                            قالب‌ها و افزونه‌های وردپرسی با کیفیت بالا، امن و با پشتیبانی حرفه‌ای 
+                            برای کسب و کارهای آنلاین ایرانی
                         </p>
                         <a href="<?php echo home_url('shop')?>"
                             class="inline-flex items-center justify-center gap-1 h-11 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">

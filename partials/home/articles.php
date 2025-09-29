@@ -24,12 +24,11 @@ $latest_articles = new WP_Query(array(
                         </svg>
                     </span>
                     <div class="flex flex-col space-y-2">
-                        <span class="font-black xs:text-2xl text-lg text-primary">از گوشه و اطراف دنیای
-                            برنامه‌نویسی</span>
+                        <span class="font-black xs:text-2xl text-lg text-primary">مقالات و راهنماهای
+                            وردپرس</span>
                         <span class="font-semibold xs:text-base text-sm text-muted">
-                            نوشتن کار جالبیه که از هزاران سال همراه ما بوده و کمک کرده تا همیشه به روز باشیم، ما
-                            در نابغه فضای رو به شکلی آماده کردیم تا شما بتونید ایده‌ها و مطالب جالب حوزه
-                            برنامه‌نویسی رو در اختیار هزاران برنامه‌نویس عضو نابغه قرار بدید.
+                            آموزش‌ها و راهنماهای کاربردی برای توسعه وردپرس، بهینه‌سازی سایت و بهترین شیوه‌های 
+                            کدنویسی. مطالب به‌روز و کاربردی برای توسعه‌دهندگان و صاحبان کسب و کار.
                         </span>
                     </div>
                 </div>
