@@ -16,8 +16,8 @@
                             <span class="font-semibold text-xs text-primary">به زودی :)</span>
                         </div>
                         <h2 class="font-black sm:text-5xl text-3xl text-foreground">
-                            داستان کسب و کار تو  <br />
-                            از اینجا شروع میشه!
+                            آرش فدایی هستم
+
                         </h2>
                         <p class="sm:text-base text-sm text-muted">
                             داشتن یک بیزینس حرفه ای آرزو نیست، فقط نیاز هست که سایت باکیفیتی داشته 

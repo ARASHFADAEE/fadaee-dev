@@ -16,7 +16,7 @@
                 </div>
                 <div class="flex lg:flex-nowrap flex-wrap gap-8 py-10">
                     <div class="md:w-5/12 w-full">
-                        <a href="./home.html" class="inline-flex items-center gap-2 text-primary">
+                        <a href="<?php echo home_url()?>" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
                                 <path

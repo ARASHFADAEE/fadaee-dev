@@ -179,7 +179,7 @@
                     x-bind:class="offcanvasOpen ? '!translate-x-0' : 'translate-x-full'">
                     <!-- offcanvas:header -->
                     <div class="flex items-center justify-between gap-x-4 sticky top-0 bg-background dark:bg-slate-900 p-4 z-10">
-                        <a href="./home.html" class="inline-flex items-center gap-2 text-primary">
+                        <a href="<?php echo home_url()?>" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
                                 <path
