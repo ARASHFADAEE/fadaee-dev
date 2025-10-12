@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         return {
             search: urlParams.get('s') || '',
-            sort: urlParams.get('sort') || 'date_desc',
+            // Default to newest for server-side consistency
+            sort: urlParams.get('sort') || 'newest',
             category: urlParams.get('category') || 'all',
             page: urlParams.get('paged') || 1
         };
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add new parameters
         if (params.search) url.searchParams.set('s', params.search);
-        if (params.sort && params.sort !== 'date_desc') url.searchParams.set('sort', params.sort);
+        if (params.sort && params.sort !== 'newest') url.searchParams.set('sort', params.sort);
         if (params.category && params.category !== 'all') url.searchParams.set('category', params.category);
         if (params.page && params.page > 1) url.searchParams.set('paged', params.page);
         
@@ -62,13 +63,21 @@ document.addEventListener('DOMContentLoaded', function() {
             postsContainer.innerHTML = '<div class="col-span-full text-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div></div>';
         }
         
-        // Prepare AJAX data
+        // Map UI sort values to server sort keys
+        const sortMap = {
+            'date_desc': 'newest',
+            'date_asc': 'oldest',
+            'title_asc': 'title',
+            'popular': 'popular'
+        };
+
+        // Prepare AJAX data aligned with server handler ajax_filter_blog
         const ajaxData = {
-            action: 'filter_posts',
+            action: 'filter_blog',
             search: params.search || '',
-            sort: params.sort || 'date_desc',
+            sort: sortMap[params.sort] || params.sort || 'newest',
             category: params.category || 'all',
-            page: params.page || 1,
+            paged: params.page || 1,
             nonce: blog_ajax.nonce
         };
         
@@ -82,17 +91,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data && data.success) {
+                const html = (data.data && (data.data.posts || data.data.content)) || '';
                 if (append) {
-                    postsContainer.insertAdjacentHTML('beforeend', data.data.html);
+                    postsContainer.insertAdjacentHTML('beforeend', html);
                 } else {
-                    postsContainer.innerHTML = data.data.html;
-                }
-                
-                // Update pagination if needed
-                const paginationContainer = document.querySelector('.pagination-container');
-                if (paginationContainer && data.data.pagination) {
-                    paginationContainer.innerHTML = data.data.pagination;
+                    postsContainer.innerHTML = html;
                 }
             } else {
                 postsContainer.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-muted">خطا در بارگذاری مقالات.</p></div>';
