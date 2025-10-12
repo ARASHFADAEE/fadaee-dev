@@ -66,7 +66,12 @@
                     <!-- Action Buttons -->
                     <div class="flex flex-wrap gap-4">
                         <?php if ($project_url) : ?>
-                        <a href="<?php echo esc_url($project_url); ?>" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-primary dark:bg-blue-600 text-primary-foreground dark:text-white rounded-full font-semibold hover:opacity-90 transition-opacity">
+                        <?php
+                            $project_host = wp_parse_url($project_url, PHP_URL_HOST);
+                            $site_host = wp_parse_url(home_url(), PHP_URL_HOST);
+                            $project_is_external = ($project_host && $site_host && $project_host !== $site_host);
+                        ?>
+                        <a href="<?php echo esc_url($project_url); ?>" target="_blank" rel="<?php echo $project_is_external ? 'nofollow noopener noreferrer' : 'noopener noreferrer'; ?>" class="inline-flex items-center gap-2 px-6 py-3 bg-primary dark:bg-blue-600 text-primary-foreground dark:text-white rounded-full font-semibold hover:opacity-90 transition-opacity">
                             <span>مشاهده پروژه</span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                 <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />

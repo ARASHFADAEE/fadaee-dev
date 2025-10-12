@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function getUrlParams() {
         const urlParams = new URLSearchParams(window.location.search);
         return {
-            search: urlParams.get('s') || '',
+            // Prefer custom 'search' param to avoid WP search (?s=) conflicts; fallback to 's' for compatibility
+            search: (urlParams.get('search') || urlParams.get('s') || ''),
             // Default to newest for server-side consistency
             sort: urlParams.get('sort') || 'newest',
             category: urlParams.get('category') || 'all',
@@ -40,12 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Remove old parameters
         url.searchParams.delete('s');
+        url.searchParams.delete('search');
         url.searchParams.delete('sort');
         url.searchParams.delete('category');
         url.searchParams.delete('paged');
         
         // Add new parameters
-        if (params.search) url.searchParams.set('s', params.search);
+        if (params.search) url.searchParams.set('search', params.search);
         if (params.sort && params.sort !== 'newest') url.searchParams.set('sort', params.sort);
         if (params.category && params.category !== 'all') url.searchParams.set('category', params.category);
         if (params.page && params.page > 1) url.searchParams.set('paged', params.page);

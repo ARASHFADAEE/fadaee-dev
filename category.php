@@ -16,7 +16,7 @@
                             </svg>
                         </span>
                         <div class="flex flex-col space-y-2">
-                            <span class="font-black xs:text-2xl text-lg text-primary">مقالات من</span>
+                            <span class="font-black xs:text-2xl text-lg text-primary"><?php echo get_the_archive_title()?></span>
                             <span class="font-semibold text-xs text-muted">از گوشه و اطراف دنیای برنامه‌نویسی</span>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                                             <input type="hidden" id="blog-sort-input" x-model="selectedValue" />
 
                                             <!-- form:select:button -->
-                                            <button x-on:click="open = !open" id="sort-dropdown"
+                                            <button x-on:click="open = !open"
                                                 class="flex items-center w-full h-11 relative bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4">
                                                 <span class="line-clamp-1" x-text="selectedOption"></span>
                                                 <span class="absolute left-3 pointer-events-none transition-transform"
@@ -152,7 +152,6 @@
                                                         <!-- form:select option -->
                                                         <li class="blog-sort-option font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
                                                             x-on:click="selectedOption = option.label; selectedValue = option.value; open = false"
-                                                            :data-value="option.value"
                                                             x-text="option.label"></li><!-- end form:select:option -->
                                                     </template>
                                                 </ul>
@@ -254,8 +253,7 @@
                                                         <div class="space-y-2">
                                                             <label class="flex items-center gap-2 cursor-pointer">
                                                                 <input type="radio" name="mobile-category" value="all" checked
-                                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" 
-                                                                    data-category-id="all" />
+                                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" />
                                                                 <span class="text-sm text-muted">همه دسته‌ها</span>
                                                             </label>
                                                             <?php
@@ -268,8 +266,7 @@
                                                             ?>
                                                             <label class="flex items-center gap-2 cursor-pointer">
                                                                 <input type="radio" name="mobile-category" value="<?php echo esc_attr($mobile_category->slug); ?>"
-                                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" 
-                                                                    data-category-id="<?php echo esc_attr($mobile_category->term_id); ?>" />
+                                                                    class="blog-category-filter form-radio !ring-0 !ring-offset-0 bg-border border-0" />
                                                                 <span class="text-sm text-muted"><?php echo esc_html($mobile_category->name); ?></span>
                                                             </label>
                                                             <?php endforeach; ?>
@@ -290,53 +287,16 @@
                             <!-- articles:wrapper -->
                             <div id="blog-posts-container" class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
                                 <?php
-                                // Get current page
                                 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-                                
-                                // Get current category
-                                $current_category = get_queried_object();
-                                
-                                // Get search query
-                                $search_query = get_query_var('s');
-                                
-                                // Get sorting parameter
-                                $sort_by = isset($_GET['sort']) ? sanitize_text_field($_GET['sort']) : 'date_desc';
-                                
-                                // Set up query arguments
+                                // Limit posts to the currently opened category
+                                $current_category_id = get_queried_object_id();
                                 $args = array(
                                     'post_type' => 'post',
                                     'posts_per_page' => 6,
                                     'paged' => $paged,
-                                    'post_status' => 'publish'
+                                    'post_status' => 'publish',
+                                    'cat' => $current_category_id,
                                 );
-                                
-                                // Add category filter if we're on a category page
-                                if (is_category()) {
-                                    $args['cat'] = $current_category->term_id;
-                                }
-                                
-                                // Add search query if exists
-                                if (!empty($search_query)) {
-                                    $args['s'] = $search_query;
-                                }
-                                
-                                // Add sorting
-                                switch ($sort_by) {
-                                    case 'date_asc':
-                                        $args['orderby'] = 'date';
-                                        $args['order'] = 'ASC';
-                                        break;
-                                    case 'title_asc':
-                                        $args['orderby'] = 'title';
-                                        $args['order'] = 'ASC';
-                                        break;
-                                    case 'date_desc':
-                                    default:
-                                        $args['orderby'] = 'date';
-                                        $args['order'] = 'DESC';
-                                        break;
-                                }
-                                
                                 $blog_query = new WP_Query($args);
                                 
                                 if ($blog_query->have_posts()) :
@@ -412,35 +372,21 @@
                             </div>
                             <!-- end articles:wrapper -->
 
-                            <!-- Pagination -->
-                            <?php if ($blog_query->max_num_pages > 1) : ?>
-                                <div class="flex items-center justify-center mt-8 gap-2">
-                                    <?php
-                                    $big = 999999999; // need an unlikely integer
-                                    $pagination_links = paginate_links(array(
-                                        'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-                                        'format' => '?paged=%#%',
-                                        'current' => max(1, $paged),
-                                        'total' => $blog_query->max_num_pages,
-                                        'prev_text' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>',
-                                        'next_text' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>',
-                                        'type' => 'array'
-                                    ));
-                                    
-                                    if ($pagination_links) {
-                                        foreach ($pagination_links as $link) {
-                                            $classes = 'inline-flex items-center justify-center w-10 h-10 text-sm font-medium rounded-lg transition-colors';
-                                            if (strpos($link, 'current') !== false) {
-                                                $classes .= ' bg-primary text-primary-foreground';
-                                            } else {
-                                                $classes .= ' bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground';
-                                            }
-                                            echo str_replace('page-numbers', $classes, $link);
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                            <?php endif; ?>
+                            <div class="flex justify-center mt-8">
+                                <!-- load more:button -->
+                                <button type="button" id="load-more-btn"
+                                    class="h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-primary px-8"
+                                    data-page="1" data-max-pages="<?php echo $blog_query->max_num_pages; ?>"
+                                    <?php if ($blog_query->max_num_pages <= 1) echo 'style="display: none;"'; ?>>
+                                    <span class="font-semibold text-sm">بارگذاری بیشتر</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="w-5 h-5 hidden" id="loading-spinner">
+                                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                                    </svg>
+                                </button>
+                                <!-- end load more:button -->
+                            </div>
                         </div>
                     </div>
                 </div>
